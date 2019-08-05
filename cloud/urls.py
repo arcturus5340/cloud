@@ -18,6 +18,6 @@ from django.urls import path, include
 import app.views
 
 urlpatterns = [
-    path('', app.views.login),
-    path('cloud/', include('filemanager.urls')),
+    path('', include('filemanager.urls')),
+    path('login/', app.views.login),
 ]
