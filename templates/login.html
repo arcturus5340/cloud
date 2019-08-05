@@ -1,6 +1,45 @@
 <hrml>
-  <hrad></hrad>
+  <head>
+  </head>
   <body>
+    {% load staticfiles %}
     Логин
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="username" id="id_username" />
+      <input type="password" name="password" id="id_password" />
+      <p id="error-login" style="color:red" hidden>Введен неправильный логин или пароль</p>
+      <input type="text" name="login" id="id_login" value="1" hidden />
+      <button type="button" id="login_button" name="submit" value="Выполнить вход" tabindex="100"> выполнить вход </button>
+
+    </form>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $('#login_button').on("click", function(e) {
+          e.preventDefault();
+          $('#error-login').hide();
+          $.ajax({
+              type: "POST",
+              url: './',
+              data: {
+                  'username': $('#id_username').val(),
+                  'password': $('#id_password').val(),
+                  'login': $('#id_login').val(),
+                  'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+              },
+              success: function(response) {
+                  if (response['result'] === "Success!") {
+                      let url = "/";
+                      $(location).attr('href', url);
+                  } else if (response['result'] === "Verificate!") {
+                      let url = "/?message=VERIFICATE";
+                      $(location).attr('href', url);
+                  } else {
+                      $('#error-login').show();
+                  }
+              }
+          });
+      });
+    </script>
 </hrml>
