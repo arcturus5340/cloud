@@ -9,7 +9,7 @@ import filemanager.views
 import json
 
 
-allowedIps = ['129.0.0.1']
+allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
 def allow_by_ip(view_func):
     def authorize(request, *args, **kwargs):
         user_ip = request.META['REMOTE_ADDR']
