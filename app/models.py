@@ -1,3 +1,6 @@
-from django.db import models
+import django.db.models
 
-# Create your models here.
+class Files(django.db.models.Model):
+    location = django.db.models.TextField()
+    link = django.db.models.TextField()
+    blocked = django.db.models.IntegerField()
