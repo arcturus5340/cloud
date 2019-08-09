@@ -23,6 +23,7 @@
       <div class="wrap-login100 p-t-60 p-b-20">
         <form class="login100-form validate-form">
           {% csrf_token %}
+          <input type="text" name="login" value="1" id="id_login" hidden>
           <h4 align="center"> <font color="green">sharewood</font><font color="#555555">.cloud</font></h4>
           <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
             <input class="input100" type="text" name="username" id="id_username">
