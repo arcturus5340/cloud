@@ -22,9 +22,7 @@ def allow_by_ip(view_func):
 
 @allow_by_ip
 def login(request):
-    print(request.POST)
     if request.POST.get('login'):
-        print(123)
         user_login = request.POST.get('username')
         user_password = request.POST.get('password')
         user = django.contrib.auth.authenticate(username=user_login, password=user_password)
