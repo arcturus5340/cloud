@@ -458,6 +458,7 @@
                         formData = options.formData;
                     } else {
                         formData = new FormData();
+                        formData.append('rel_path', file.webkitRelativePath);
                         $.each(this._getFormData(options), function (index, field) {
                             formData.append(field.name, field.value);
                         });
