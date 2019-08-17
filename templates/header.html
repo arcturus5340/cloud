@@ -1,0 +1,42 @@
+{% load static %}
+<header>
+	<div class="top-header">
+		<table class="top-menu">
+			<tr>
+				<td width="10%">
+					<a href="https://sharewood.online" class="site-links"> SHAREWOOD.ONLINE </a>
+				</td>
+				<td width="1%" style="color:white">•</td>
+				<td width="8%">
+					<a href="https://sharewood.biz" class="site-links"> SHAREWOOD.BIZ </a>
+				</td>
+				<td width="1%" style="color:white">•</td>
+				<td width="60%">
+					<a href="#"><img src="{% static 'img/tg-guru.png' %}"></a>
+				</td>
+				<td width="1%" style="color:#a77e47; padding-top: 0px"><img src="{% static 'img/gradient-point.png' %}"></td>
+				<td>
+					<a href="#" class="site-links">SHAREWOOD@BARRET.PRO<img style="margin-left: 8px" src="{% static 'img/array-down.png' %}"></a>
+				</td>
+				<td>
+					<a href="#" class="site-links" style="margin-right: 10px"> ВЫХОД </a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="logo-header">
+		<table class="top-logo-menu">
+			<tr>
+				<td valign="top" width="73%">
+					<a href="/"><img src="{% static 'img/logo.png' %}"></a>
+				</td>
+				<td valign="top">
+					<form class="search-form form-inline" id="searchform" action="" method="get" accept-charset="utf-8">
+					  <input class="search-query search-input"  name="q" id="searchbox" type="search" placeholder="ПОИСК ПО ОБЛАКУ" >
+					  <button class="search-btn" type="submit"><img src="{% static 'img/search-btn.png' %}"></button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+</header>
