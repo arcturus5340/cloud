@@ -2,7 +2,6 @@
  * Created by VectoR on 26-01-2018.
  */
 jQuery(document).ready(function($) {
-
     $(".clickable-row").click(function() {
         window.location = $(this).closest('tr').data("href");
     });
@@ -102,32 +101,31 @@ jQuery(document).ready(function($) {
         // Prevent default link action
         event.preventDefault();
      });
-
     $('#fileupload').fileupload({
-      dataType: 'json',
+        
+        dataType: 'json',
         start: function (e) {
-       var strProgress = 0 + "%";
-      $(".progress-bar").css({"width": strProgress});
-      $(".progress-bar").text(strProgress);
-    },
+            var strProgress = 0 + "%";
+            $(".progress-bar").css({"width": strProgress});
+            $(".progress-bar").text(strProgress);
+        },
 
-      done: function(e, data) {
-        $.each(data.result.files, function (index, file) {
-            $("#show-files").append('<tr><td>'+file.name+'</tr></td>')
-      });
-        $('#upload-btn').click(function () {
-        location.reload();
+        done: function(e, data) {
+            $.each(data.result.files, function (index, file) {
+                $("#show-files").append('<tr><td>'+file.name+'</tr></td>')
+            });
+            $('#upload-btn').click(function () {
+                location.reload();
+            });
+        },
+
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            var strProgress = progress + "%";
+            $(".progress-bar").css({"width": strProgress});
+            $(".progress-bar").text(strProgress);
+        }
     });
-
-    },
-      progressall: function (e, data) {
-      var progress = parseInt(data.loaded / data.total * 100, 10);
-      var strProgress = progress + "%";
-      $(".progress-bar").css({"width": strProgress});
-      $(".progress-bar").text(strProgress);
-    }
-
-  });
 
     $('#upload-modal').on('hidden.bs.modal', function () {
         location.reload();
@@ -160,11 +158,35 @@ jQuery(document).ready(function($) {
          }
     });
 
+       $('#replace-modal-btn').click(function () {
+         if($('.checkbox:checked').length==1){
+             var path = $(this).data('href');
+             $.ajax({
+                url:     path ,
+                type:    'get'
+
+            });
+              var filename = $(".checkbox:checked").closest('tr').find('.clickable-row').text();
+              $('#replace-modal .modal-title').html('Replace : <b>'+ filename +'</b>');
+              $('#replace-modal').modal('show');
+
+              $('#replace-form').on('submit', function () {
+
+                var input = $("<input>")
+                   .attr("type", "hidden")
+                   .attr("name", "old_path").val(filename);
+
+                $('#replace-form').append($(input));
+             });
+         }
+    });
+
          $('.checkbox').on('click', function () {
              on_checkbox_selected();
          });
 
          $('#rename-modal-btn').prop('disabled',true);
+         $('#replace-modal-btn').prop('disabled',true);
          $('#download-btn').prop('disabled',true);
          $('#delete-modal-btn').prop('disabled',true);
 
@@ -185,14 +207,17 @@ function on_checkbox_selected() {
                  $('#delete-modal-btn').prop('disabled',false);
                 if(checkbox.length==1){
                     $('#rename-modal-btn').addClass('btn-danger').prop('disabled',false);
+                    $('#replace-modal-btn').addClass('btn-danger').prop('disabled',false);
                 }
                 else{
                     $('#rename-modal-btn').removeClass('btn-danger').prop('disabled',true);
+                    $('#replace-modal-btn').removeClass('btn-danger').prop('disabled',true);
                 }
             }
 
             else{
                  $('#rename-modal-btn').removeClass('btn-danger').prop('disabled',true);
+                 $('#replace-modal-btn').removeClass('btn-danger').prop('disabled',true);
                  $('#download-btn').removeClass('btn-success').prop('disabled',true);
                  $('#delete-modal-btn').prop('disabled',true);
 
