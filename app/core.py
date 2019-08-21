@@ -98,7 +98,7 @@ class Filemanager(object):
         app.signals.filemanager_pre_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         STORAGE.save(filepath, filedata)
         app.models.Files.objects.create(location=filepath,
-                                        link='sharewood.cloud/{}'.format(hashlib.sha3_256(filepath.encode('utf-8')).hexdigest()),
+                                        link='sharewood.cloud/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
                                         blocked=0,
                                         url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)

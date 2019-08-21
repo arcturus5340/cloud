@@ -192,7 +192,7 @@ class DirectoryCreateView(FilemanagerMixin, django.views.generic.FormView):
     }]
 
     def get_success_url(self):
-        url = '%s?path=%s' % (django.shortcuts.reverse('app:browser'), self.fm.path)
+        url = '%s?path=%s' % (django.shortcuts.reverse('browser'), self.fm.path)
         if hasattr(self, 'popup') and self.popup:
             url += '&popup=1'
         return url
@@ -211,7 +211,7 @@ class RenameView(FilemanagerMixin, django.views.generic.FormView):
     }]
 
     def get_success_url(self):
-        url = '%s?path=%s' % (django.shortcuts.reverse('app:browser'), self.fm.path)
+        url = '%s?path=%s' % (django.shortcuts.reverse('browser'), self.fm.path)
         if hasattr(self, 'popup') and self.popup:
             url += '&popup=1'
         return url
@@ -248,7 +248,7 @@ class ReplaceView(FilemanagerMixin, django.views.generic.FormView):
     }]
 
     def get_success_url(self):
-        url = '%s?path=%s' % (django.shortcuts.reverse('app:browser'), self.fm.path)
+        url = '%s?path=%s' % (django.shortcuts.reverse('browser'), self.fm.path)
         if hasattr(self, 'popup') and self.popup:
             url += '&popup=1'
         return url
