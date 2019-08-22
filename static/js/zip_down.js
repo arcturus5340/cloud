@@ -25,7 +25,6 @@ function urlToPromise(url) {
 }
 
 $("#download-btn").on("click", function () {
-
     var zip = new JSZip();
     // find every checked item
     if($(".checkbox:checked").length>0){
@@ -34,10 +33,9 @@ $("#download-btn").on("click", function () {
             var url = $this.data("url");
             var filename = $this.closest('tr').find('.clickable-row').text();
             if($this.attr('id')=='check-dir'){
-               zip.folder(filename);
-            }
-            else {
-                zip.file(filename, urlToPromise(url), {binary:true});
+                zip.folder(filename);
+            } else {
+                zip.file(filename, urlToPromise(url), {binary:true, createFolders: true});
             }
 
             });

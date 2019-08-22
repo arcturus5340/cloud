@@ -33,19 +33,25 @@
               <button class="top-buttons" id="upload-modal-btn" data-href="{% url 'upload' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="btn btn-default" style="width: 120px; margin-left: 8px"><font class="top-buttons-font"><img src="/static/img/upload-btn.png" class="top-buttons-img">ЗАГРУЗИТЬ</font></button>
             </th>
             <th>
-              <button class="top-buttons" id="create-directory-btn" data-href="{% url 'create-directory' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 150px;"><font class="top-buttons-font"><img src="/static/img/create-directory-btn.png" class="top-buttons-img">CОЗДАТЬ ПАПКУ</font></button>
+              <button class="top-buttons" id="create-directory-btn" data-href="{% url 'create-directory' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/create-directory-btn.png" class="top-buttons-img">НОВАЯ ПАПКА</font></button>
             </th>
             <th>
-              <button class="top-buttons" id="download-btn" style="width: 115px;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img">СКАЧАТЬ</font></button>
+              <button class="top-buttons" id="download-btn" style="width: 50px;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img" style="margin-left:8px"></font></button>
             </th>
             <th>
-              <button class="top-buttons" id="delete-modal-btn" data-href="{% url 'delete' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 115px;"><font class="top-buttons-font"><img src="/static/img/delete-btn.png" class="top-buttons-img">УДАЛИТЬ</font></button>
+              <button class="top-buttons" id="delete-modal-btn" data-href="{% url 'delete' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 50px;"><font class="top-buttons-font"><img src="/static/img/delete-btn.png" class="top-buttons-img" style="margin-left:8px"></font></button>
             </th>
             <th>
-              <button class="top-buttons" id="get-link-btn" style="width: 170px;"><font class="top-buttons-font"><img src="/static/img/link.png" class="top-buttons-img">ПОЛУЧИТЬ ССЫЛКУ</font></button>
+              <button class="top-buttons" id="get-link-btn" style="width: 100px;"><font class="top-buttons-font"><img src="/static/img/link.png" class="top-buttons-img">ССЫЛКА</font></button>
             </th>
             <th>
-              <button class="top-buttons" id="delete-modal-btn" style="width: 220px;"><font class="top-buttons-font"><img src="/static/img/public-access-btn.png" class="top-buttons-img">НАСТРОИТЬ ОБЩИЙ ДОСТУП</font></button>
+              <button class="top-buttons" id="delete-modal-btn" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/public-access-btn.png" class="top-buttons-img"> ОБЩИЙ ДОСТУП</font></button>
+            </th>
+            <th>
+              <button class="top-buttons" id="rename-modal-btn" data-href="{% url 'rename' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/public-access-btn.png" class="top-buttons-img"> ПЕРЕИМЕНОВАТЬ</font></button>
+            </th>
+            <th>
+              <button class="top-buttons" id="replace-modal-btn" data-href="{% url 'replace' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="btn btn-default" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/public-access-btn.png" class="top-buttons-img"> ПЕРЕМЕСТИТЬ</font></button>
             </th>
           </tr>
         </table>
@@ -81,7 +87,7 @@
                     </tr>
                     {% else %}
                     <tr data-href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}">
-                      <td width="4.5%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-dir" data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
+                      <td width="4.5%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-file" data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
                       <td width="60%"><font><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" class="item-link clickable-row">{{file.filename}}</a></font></td>
                       <td width="12.5%"><font class="top-buttons-font"><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" download class="item-link download-item"><img class="download-img top-buttons-img" src="/static/img/download-btn.png"> {{file.filesize}}</a></font></td>
                       <td width="10%"><font class="top-buttons-font"><img class="top-buttons-img" src="/static/img/calendar.png"> {{file.filedate}}</font></td>
