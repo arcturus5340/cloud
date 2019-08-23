@@ -10,20 +10,20 @@
       <td width="15%" style="display:inline-table; margin-top:6px" class="admin-sidebar" valign="top">
         <div>
           <font> СЕРВЕР </font>
-          <font style="color:#ff4633; float: right;"> RICARDO #1 </font>
+          <font style="color:#ff4633; float: right;"> {{ server.hostname }} </font>
           <div class="progress">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:60%"></div>
+            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{ server.free }}%"></div>
           </div>
-          <font> СВОБОДНО </font>
-          <font style="color:#8ad641; float: right;"> 2ГБ из 8ГБ </font>
-          <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:40%"></div>
-          </div>
+{#          <font> СВОБОДНО </font>#}
+{#          <font style="color:#8ad641; float: right;"> 2ГБ из 8ГБ </font>#}
+{#          <div class="progress">#}
+{#              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:40%"></div>#}
+{#          </div>#}
         </div>
         <div class="mini-cloud">
         </div>
         <div style="padding-top:15px; padding-bottom: 15px">
-          <font class="top-buttons-font"><a href="#" class="item-link support"><img class="support-img top-buttons-img" src="/static/img/support.png"> Служба поддержки </a></font> 
+          <font class="top-buttons-font"><a href="#" class="item-link support"><img class="support-img top-buttons-img" src="/static/img/support.png"> Служба поддержки </a></font>
         </div>
       </td>
       <td width="65%" valign="top" style="display:inline-table;">

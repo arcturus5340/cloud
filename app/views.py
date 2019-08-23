@@ -7,7 +7,10 @@ import django.views.decorators.csrf
 import django.views.generic
 import django.views.generic.base
 
+import collections
 import json
+import os
+import psutil
 import re
 
 import app.core
@@ -42,6 +45,12 @@ def login(request):
         return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
 
     return django.shortcuts.render(request, 'login.html')
+
+
+class Server(object):
+    def __init__(self):
+        self.hostname = os.uname().nodename
+        self.free = (psutil.virtual_memory().free*100)/psutil.virtual_memory().total
 
 
 class FilemanagerMixin(object):
@@ -138,6 +147,8 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
         else:
             context['files'] = self.fm.directory_list()
             context['empty'] = 'Folder is empty'
+
+        context['server'] = Server()
 
         return context
 
