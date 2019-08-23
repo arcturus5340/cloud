@@ -229,7 +229,7 @@ class DeleteView(FilemanagerMixin, django.views.generic.base.View):
         return super(DeleteView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
-        json_data = json.loads(request.body)
+        json_data = json.loads(request.body.decode("utf-8") )
         try:
             for files in json_data['files']:
                 self.fm.remove(files)
