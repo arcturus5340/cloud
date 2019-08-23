@@ -7,7 +7,7 @@
 <div class="main-content">
   <table width="100%">
     <tr>
-      <td width="17%" class="admin-sidebar" valign="top">
+      <td width="15%" style="display:inline-table; margin-top:6px" class="admin-sidebar" valign="top">
         <div>
           <font> СЕРВЕР </font>
           <font style="color:#ff4633; float: right;"> RICARDO #1 </font>
@@ -26,8 +26,8 @@
           <font class="top-buttons-font"><a href="#" class="item-link support"><img class="support-img top-buttons-img" src="/static/img/support.png"> Служба поддержки </a></font> 
         </div>
       </td>
-      <td width="65%" valign="top">
-        <table style="border-spacing: 0px 10px">
+      <td width="65%" valign="top" style="display:inline-table;">
+        <table style="border-spacing: 0px 5px">
           <tr>
             <th>
               <button class="top-buttons" id="upload-modal-btn" data-href="{% url 'upload' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="btn btn-default" style="width: 110px; margin-left: 8px"><font class="top-buttons-font"><img src="/static/img/upload-btn.png" class="top-buttons-img">ЗАГРУЗИТЬ</font></button>
@@ -55,7 +55,7 @@
             </th>
           </tr>
         </table>
-        <table class="fm-table">
+        <table class="fm-table" style="width: 99%;">
           <thead>
               <tr>
                 <td class="fm-head">

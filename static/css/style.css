@@ -70,6 +70,10 @@ font {
   	color: #b4a69d;
 }
 
+.search-input:hover {
+  	opacity: 1;
+}
+
 .search-btn {
   	opacity: 1;
   	position: absolute; 
@@ -152,6 +156,7 @@ font {
 }
 
 .fm-body {
+	border-radius: 0 0 8px 8px;
 	margin: 0;
 	background-image: url("/static/img/fm-bg.png");
 	padding-left: 21px;
