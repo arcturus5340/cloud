@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
             fa_html.push($(this).closest('tr').find('span').html())
         });
 
-        $('.modal-title').html('<b> Are you sure to remove these files/dirs: </b>');
+        $('.modal-title').html('<b> Вы уверены, что хотите удалить данные файлы/папки? </b>');
 
         $('#remove-modal').modal('show');
 
@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
             type:    'get',
 
         });
-          $('#create-directory .modal-title').html('Path : <b> /'+path.split('=')[1] +'</b>');
+          $('#create-directory .modal-title').html('Путь : <b> /'+path.split('=')[1] +'</b>');
           $('#create-directory').modal('show');
 
         // Prevent default link action
@@ -95,7 +95,7 @@ jQuery(document).ready(function($) {
             type:  'get',
 
         });
-          $('#upload-modal .modal-title').html('Path : <b> /'+path.split('=')[1] +'</b>');
+          $('#upload-modal .modal-title').html('Путь : <b> /'+path.split('=')[1] +'</b>');
           $('#upload-modal').modal('show');
 
         // Prevent default link action
@@ -144,7 +144,7 @@ jQuery(document).ready(function($) {
 
             });
               var filename = $(".checkbox:checked").closest('tr').find('.clickable-row').text();
-              $('#rename-modal .modal-title').html('Rename : <b>'+ filename +'</b>');
+              $('#rename-modal .modal-title').html('Переименовать : <b>'+ filename +'</b>');
               $('#rename-modal').modal('show');
 
               $('#rename-form').on('submit', function () {
@@ -167,7 +167,7 @@ jQuery(document).ready(function($) {
 
             });
               var filename = $(".checkbox:checked").closest('tr').find('.clickable-row').text();
-              $('#replace-modal .modal-title').html('Replace : <b>'+ filename +'</b>');
+              $('#replace-modal .modal-title').html('Переместить : <b>'+ filename +'</b>');
               $('#replace-modal').modal('show');
 
               $('#replace-form').on('submit', function () {
@@ -200,26 +200,44 @@ jQuery(document).ready(function($) {
     });
 
 function on_checkbox_selected() {
+            
+            var checkbox_count = 0;
+            var checkboxes = $(".checkbox");
+            checkboxes.each(function(e) {
+                checkbox_count = checkbox_count + 1;
+            });
 
             var checkbox = $(".checkbox:checked");
             if(checkbox.length>0){
-                $('#download-btn').addClass('btn-success').prop('disabled',false);
-                 $('#delete-modal-btn').prop('disabled',false);
-                if(checkbox.length==1){
-                    $('#rename-modal-btn').addClass('btn-danger').prop('disabled',false);
-                    $('#replace-modal-btn').addClass('btn-danger').prop('disabled',false);
+                $('#download-btn').removeClass('btn-inactive').prop('disabled',false);
+                $('#delete-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+                
+                if(checkbox.length==1) {
+                    $('#public-access-btn').removeClass('btn-inactive').prop('disabled',false);
+                    $('#rename-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+                    $('#replace-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+                    $('#get-link-btn').removeClass('btn-inactive').prop('disabled',false);
+                    $('.checkAll').prop('checked', false);
+                } else {
+                    $('#rename-modal-btn').addClass('btn-inactive').prop('disabled',true);
+                    $('#replace-modal-btn').addClass('btn-inactive').prop('disabled',true);
+                    $('#get-link-btn').addClass('btn-inactive').prop('disabled',true);
+                    $('#public-access-btn').addClass('btn-inactive').prop('disabled',true);
                 }
-                else{
-                    $('#rename-modal-btn').removeClass('btn-danger').prop('disabled',true);
-                    $('#replace-modal-btn').removeClass('btn-danger').prop('disabled',true);
-                }
-            }
 
-            else{
-                 $('#rename-modal-btn').removeClass('btn-danger').prop('disabled',true);
-                 $('#replace-modal-btn').removeClass('btn-danger').prop('disabled',true);
-                 $('#download-btn').removeClass('btn-success').prop('disabled',true);
-                 $('#delete-modal-btn').prop('disabled',true);
+                if (checkbox.length < checkbox_count) {
+                    $('.checkAll').prop('checked', false);
+                } else {
+                    $('.checkAll').prop('checked', true);
+                }
+            } else {
+
+                 $('#rename-modal-btn').addClass('btn-inactive').prop('disabled', true);
+                 $('#replace-modal-btn').addClass('btn-inactive').prop('disabled', true);
+                 $('#download-btn').addClass('btn-inactive').prop('disabled', true);
+                 $('#public-access-btn').addClass('btn-inactive').prop('disabled', true);
+                 $('#get-link-btn').addClass('btn-inactive').prop('disabled', true);
+                 $('#delete-modal-btn').addClass('btn-inactive').prop('disabled',true);
 
             }
   }

@@ -62,11 +62,16 @@ font {
   	background-image: url("/static/img/search-input.png");
   	border-radius: 7px;
   	color: #b4a69d;
+  	opacity: 0.7;
 }
 
 .search-input::placeholder {
   	font-family: 'Roboto Regular';
   	color: #b4a69d;
+}
+
+.search-input:hover {
+  	opacity: 1;
 }
 
 .search-btn {
@@ -151,6 +156,7 @@ font {
 }
 
 .fm-body {
+	border-radius: 0 0 8px 8px;
 	margin: 0;
 	background-image: url("/static/img/fm-bg.png");
 	padding-left: 21px;
@@ -268,7 +274,6 @@ font {
 
 .modal-dialog {
 	position:relative;
-	width:auto;
 	margin:10px
 }
 
@@ -282,7 +287,10 @@ font {
 	border-radius:6px;
 	outline:0;
 	-webkit-box-shadow:0 3px 9px rgba(0,0,0,.5);
-	box-shadow:0 3px 9px rgba(0,0,0,.5)
+	box-shadow:0 3px 9px rgba(0,0,0,.5);
+	margin-left: 100px; 
+	width: 410px;
+	background-image: url('/static/img/modal-bg.png');
 }
 
 .modal-backdrop {
@@ -379,4 +387,8 @@ font {
 
 .btn-group-vertical>.btn-group:after,.btn-toolbar:after,.clearfix:after,.container-fluid:after,.container:after,.dl-horizontal dd:after,.form-horizontal .form-group:after,.modal-footer:after,.modal-header:after,.nav:after,.navbar-collapse:after,.navbar-header:after,.navbar:after,.pager:after,.panel-body:after,.row:after{
 	clear:both
+}
+
+.btn-inactive {
+	opacity: 0.5;
 }

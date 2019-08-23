@@ -8,10 +8,7 @@
   <table style="margin-left: 2px;margin-bottom: 10px">
     <tr>
       <th>
-        <button class="top-buttons" id="save-to-cloud-btn" style="width: 207px"><font class="top-buttons-font"><img src="/static/img/save-to-cloud-btn.png" class="top-buttons-img">СОХРАНИТЬ В ОБЛАКО</font></button>
-      </th>
-      <th>
-        <button class="top-buttons" id="download-btn" style="width: 115px;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img">СКАЧАТЬ</font></button>
+        <button class="top-buttons btn-inactive" disabled id="download-btn" style="width: 115px;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img">СКАЧАТЬ</font></button>
       </th>
     </tr>
   </table>
@@ -46,7 +43,7 @@
               </tr>
               {% else %}
               <tr data-href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}">
-                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-dir" data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
+                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-file" data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
                 <td width="62%"><font><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" class="item-link clickable-row">{{file.filename}}</a></font></td>
                 <td width="8.5%"><font class="top-buttons-font"><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" download class="item-link download-item"><img class="download-img top-buttons-img" src="/static/img/download-btn.png"> {{file.filesize}}</a></font></td>
                 <td width="7%"><font class="top-buttons-font"><img class="top-buttons-img" src="/static/img/calendar.png"> {{file.filedate}}</font></td>
@@ -61,6 +58,8 @@
   </table>
 
 </div>
+
+{% include 'filemanager/auth_modal.html' %}
 
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -88,6 +87,31 @@
     });
 
     return false;
+  });
+  $('#login_button').on("click", function(e) {
+    e.preventDefault();
+    $('#error-login').hide();
+    $.ajax({
+      type: "POST",
+      url: './login/',
+      data: {
+        'username': $('#id_username').val(),
+        'password': $('#id_password').val(),
+        'login': $('#id_login').val(),
+        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function(response) {
+          if (response['result'] === "Success!") {
+              let url = "/";
+              $(location).attr('href', url);
+          } else if (response['result'] === "Verificate!") {
+              let url = "/?message=VERIFICATE";
+              $(location).attr('href', url);
+          } else {
+              $('#error-login').show();
+          }
+      }
+    });
   });
 </script>
 

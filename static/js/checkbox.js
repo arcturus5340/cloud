@@ -6,7 +6,13 @@ $(document).ready(function () {
     $(this).closest('table').find('tbody :checkbox')
       .prop('checked', this.checked)
       .closest('tr').toggleClass('selected', this.checked);
-
+      if($(this).prop('checked')) {
+	    $('#download-btn').removeClass('btn-inactive').prop('disabled',false);
+	    $('#delete-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+	  } else {
+	  	$('#download-btn').addClass('btn-inactive').prop('disabled', true);
+	  	$('#delete-modal-btn').addClass('btn-inactive').prop('disabled',true);
+	  }
   });
 
   $('tbody :checkbox').on('click', function () {

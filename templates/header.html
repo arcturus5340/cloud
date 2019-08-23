@@ -19,7 +19,7 @@
 					<a href="#" class="site-links">SHAREWOOD@BARRET.PRO<img style="margin-left: 8px" src="{% static 'img/array-down.png' %}"></a>
 				</td>
 				<td>
-					<a href="#" class="site-links" style="margin-right: 10px"> ВЫХОД </a>
+					<a href="#" class="site-links" id="auth-modal-btn" style="margin-right: 10px"> ВХОД </a>
 				</td>
 			</tr>
 		</table>
@@ -32,6 +32,7 @@
 				</td>
 				<td valign="top">
 					<form class="search-form form-inline" id="searchform" action="" method="get" accept-charset="utf-8">
+					  <input type="hidden" name="search_param" id="search_param" value="everywhere">
 					  <input class="search-query search-input"  name="q" id="searchbox" type="search" placeholder="ПОИСК ПО ОБЛАКУ" >
 					  <button class="search-btn" type="submit"><img src="{% static 'img/search-btn.png' %}"></button>
 					</form>
