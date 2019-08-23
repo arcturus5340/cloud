@@ -59,6 +59,8 @@
 
 </div>
 
+{% include 'filemanager/auth_modal.html' %}
+
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
   $(".download-item").mousemove(function() {
@@ -85,6 +87,31 @@
     });
 
     return false;
+  });
+  $('#login_button').on("click", function(e) {
+    e.preventDefault();
+    $('#error-login').hide();
+    $.ajax({
+      type: "POST",
+      url: './login/',
+      data: {
+        'username': $('#id_username').val(),
+        'password': $('#id_password').val(),
+        'login': $('#id_login').val(),
+        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function(response) {
+          if (response['result'] === "Success!") {
+              let url = "/";
+              $(location).attr('href', url);
+          } else if (response['result'] === "Verificate!") {
+              let url = "/?message=VERIFICATE";
+              $(location).attr('href', url);
+          } else {
+              $('#error-login').show();
+          }
+      }
+    });
   });
 </script>
 

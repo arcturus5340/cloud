@@ -128,6 +128,7 @@
 {% include 'filemanager/remove_modal.html' %}
 {% include 'filemanager/replace_modal.html' %}
 {% include 'filemanager/link_modal.html' %}
+{% include 'filemanager/auth_modal.html' %}
 
 <script type="text/javascript">
   $(".download-item").mousemove(function() {
@@ -202,6 +203,11 @@
           $("#save-urls").attr('data', url);
           $('#link-modal').modal('show');
     });
+
+    $('#auth-modal-btn').click(function (e) {
+      e.preventDefault();
+      $('#auth-modal').modal('show');
+    });
    
   $("#link-access-btn").click(function() {
     if($(this).find('div.off').length !== 0) {
@@ -229,7 +235,41 @@
   $(".add-url-input").click(function(e) {
     $( ".url-div" ).append('<input type="text" class="form-control urls" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px"></input><br><br><br>');
   });
-
+  $(".search-input").click(function(e) {
+    $(this).css("opacity", "1");
+  });
+  
+  $(document).mouseup(function (e){
+    var div = $(".search-input");
+    if (!div.is(e.target) && div.has(e.target).length === 0) {
+      $(".search-input").css("opacity", "0.7");
+    }
+  });
+  $('#login_button').on("click", function(e) {
+      e.preventDefault();
+      $('#error-login').hide();
+      $.ajax({
+        type: "POST",
+        url: './login/',
+        data: {
+          'username': $('#id_username').val(),
+          'password': $('#id_password').val(),
+          'login': $('#id_login').val(),
+          'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function(response) {
+            if (response['result'] === "Success!") {
+                let url = "/";
+                $(location).attr('href', url);
+            } else if (response['result'] === "Verificate!") {
+                let url = "/?message=VERIFICATE";
+                $(location).attr('href', url);
+            } else {
+                $('#error-login').show();
+            }
+        }
+      });
+    });
 </script>
 
 <script src="{% static 'js/other.js' %}"></script>

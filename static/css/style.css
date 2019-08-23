@@ -62,6 +62,7 @@ font {
   	background-image: url("/static/img/search-input.png");
   	border-radius: 7px;
   	color: #b4a69d;
+  	opacity: 0.7;
 }
 
 .search-input::placeholder {
