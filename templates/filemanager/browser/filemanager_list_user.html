@@ -59,9 +59,12 @@
 
 </div>
 
+{% if popup %}
+<script src="{% static 'js/filemanager.js' %}"></script>
+{% endif %}
+
 {% include 'filemanager/auth_modal.html' %}
 
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
   $(".download-item").mousemove(function() {
     $(this).find(".download-img").attr('src', '/static/img/download-btn-hover.png')
