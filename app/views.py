@@ -132,6 +132,9 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
 
         context['server'] = Server()
 
+        context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
+        context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
+
         return context
 
     def post(self, request, *args, **kwargs):

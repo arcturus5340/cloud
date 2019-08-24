@@ -24,7 +24,7 @@
             <a href="{% url 'browser' %}?path={{breadcrumb.path}}{% if popup %}&amp;popup=1{% endif %}" style="text-decoration: none; color: #5eb961;">> {{breadcrumb.label}}</a>
             {% endif %}
             {% endfor %}</font>
-            <font style="float:right">3 ПАПКИ, 1 ФАЙЛ</font>
+            <font style="float:right">{% get_dirs_number n_dir %}, {% get_files_number n_file %}</font>
           </td>
         </tr>
       </thead>
