@@ -67,9 +67,12 @@
     $(this).find(".download-img").attr('src', '/static/img/download-btn-hover.png')
   });
   $(".download-item").mouseleave(function() {
-    $(this).find(".download-img").attr('src', '/static/img/download-btn.png')
+    $(this).find(".download-img").attr('src', '/static/img/download-btn.png');
   });
-  
+  $('#auth-modal-btn').click(function (e) {
+    e.preventDefault();
+    $('#auth-modal').modal('show');
+  });
   $(".download-folder").on("click", function () {
 
     var zip = new JSZip();
