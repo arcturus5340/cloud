@@ -60,7 +60,6 @@ class FilemanagerMixin(object):
             context['breadcrumbs'] += self.extra_breadcrumbs
 
         context['server'] = Server()
-        print(123)
 
         return context
 
@@ -91,7 +90,7 @@ class JSONResponseMixin:
 
 
 class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
-    template_name = 'filemanager/browser/filemanager_list.html'
+    template_name = 'filemanager/browser/filemanager_list_user.html'
 
     def dispatch(self, request, *args, **kwargs):
         self.popup = self.request.GET.get('popup', 0) == '1'
@@ -140,7 +139,6 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('login'):
-            print('HERE!')
             if request.META['REMOTE_ADDR'] not in allowedIps:
                 return django.http.HttpResponse('Invalid Ip Access!')
 
@@ -154,6 +152,13 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
                 response_data['result'] = 'Success!'
             else:
                 response_data['result'] = 'Failed!'
+            BrowserView.template_name = 'filemanager/browser/filemanager_list.html'
+            return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        if request.POST.get('logout'):
+            django.contrib.auth.logout(request)
+            response_data = {'result': 'Success!'}
+            BrowserView.template_name = 'filemanager/browser/filemanager_list_user.html'
             return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
 
 

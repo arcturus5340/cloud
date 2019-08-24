@@ -24,7 +24,8 @@
             <a href="{% url 'browser' %}?path={{breadcrumb.path}}{% if popup %}&amp;popup=1{% endif %}" style="text-decoration: none; color: #5eb961;">> {{breadcrumb.label}}</a>
             {% endif %}
             {% endfor %}</font>
-            <font style="float:right">{% get_dirs_number n_dir n_file %}</font>
+            {% load utils %}
+            <font style="float:right">{% get_el_number n_dir n_file %}</font>
           </td>
         </tr>
       </thead>
@@ -51,6 +52,12 @@
               {% endif %}
               {% endfor %}
               {% else %}
+              <tr>
+                <td>
+                  <font>Нет файлов</font>
+                </td>
+              </tr>
+              {% endif %}
             </table>
           </td>
         </tr>
@@ -72,10 +79,7 @@
   $(".download-item").mouseleave(function() {
     $(this).find(".download-img").attr('src', '/static/img/download-btn.png');
   });
-  $('#auth-modal-btn').click(function (e) {
-    e.preventDefault();
-    $('#auth-modal').modal('show');
-  });
+
   $(".download-folder").on("click", function () {
 
     var zip = new JSZip();
@@ -94,12 +98,18 @@
 
     return false;
   });
+
+  $('#auth-modal-btn').click(function (e) {
+    e.preventDefault();
+    $('#auth-modal').modal('show');
+  });
+
   $('#login_button').on("click", function(e) {
     e.preventDefault();
     $('#error-login').hide();
     $.ajax({
       type: "POST",
-      url: './login/',
+      url: './',
       data: {
         'username': $('#id_username').val(),
         'password': $('#id_password').val(),
