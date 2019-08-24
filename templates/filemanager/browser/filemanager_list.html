@@ -275,7 +275,7 @@
         type: "POST",
         url: './',
         data: {
-          'logout': $('#id_logout').val(),
+          'logout': "logout",
           'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
         },
         success: function(response) {

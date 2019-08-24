@@ -46,7 +46,7 @@ $("#download-btn").on("click", function () {
                 });
             });
             
-            $.post("/download/", {files:zip_files, 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
+            $.post("/download/", {'files[]' : JSON.stringify(zip_files), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
 
             // when everything has been downloaded, we can trigger the dl
             zip.generateAsync({type:"blob"}, function updateCallback(metadata) {

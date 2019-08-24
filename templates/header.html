@@ -20,11 +20,7 @@
 				</td>
 				<td>
 					{% if request.user.is_authenticated %}
-                        <form class="form-inline" id='link-form' method="post" action="" style="">
-                          {% csrf_token %}
-                          <input name="logout" value="logout" id="id_logout" hidden>
-                          <button id="logout_button" style="margin-right: 10px">ВЫЙТИ</button>
-                        </form>
+                        <a href="#" class="site-links" id="logout_button" style="margin-right: 10px">ВЫЙТИ</a>
                     {% else %}
                         <a href="#" class="site-links" id="auth-modal-btn" style="margin-right: 10px"> ВХОД </a>
                     {% endif %}
