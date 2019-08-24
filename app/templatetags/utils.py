@@ -4,32 +4,30 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_files_number(num):
-    if 11 <= num <= 14:
-        return '{} ФАЙЛОВ'.format(num)
-    temp = num % 10
-    if temp == 0 or (5 <= temp <= 9):
-        return '{} ФАЙЛОВ'.format(num)
-    if temp == 1:
-        return '{} ФАЙЛ'.format(num)
-    if temp >= 2 and temp <= 4:
-        return '{} ФАЙЛА'.format(num)
+def get_el_number(dnum, fnum):
+    result = ''
+    temp = fnum % 10
+    if 11 <= fnum <= 14:
+        result = '{} ФАЙЛОВ'.format(fnum)
+    elif 5 <= temp <= 9:
+        result = '{} ФАЙЛОВ'.format(fnum)
+    elif temp == 1:
+        result = '{} ФАЙЛ'.format(fnum)
+    elif temp >= 2 and temp <= 4:
+        result = '{} ФАЙЛА'.format(fnum)
 
-    return 'WTF?!'
+    temp = dnum % 10
+    if result and temp != 0: result += ', '
 
+    if 11 <= dnum <= 14:
+        result += '{} ПАПОК'.format(dnum)
+    elif 5 <= temp <= 9:
+        result += '{} ПАПОК'.format(dnum)
+    elif temp == 1:
+        result += '{} ПАПКА'.format(dnum)
+    elif temp >= 2 and temp <= 4:
+        result += '{} ПАПКИ'.format(dnum)
 
-@register.simple_tag
-def get_dirs_number(num):
-    if 11 <= num <= 14:
-        return '{} ПАПОК'.format(num)
-    temp = num % 10
-    if temp == 0 or (5 <= temp <= 9):
-        return '{} ПАПОК'.format(num)
-    if temp == 1:
-        return '{} ПАПКА'.format(num)
-    if temp >= 2 and num <= 4:
-        return '{} ПАПКИ'.format(num)
-
-    return 'WTF?!'
+    return result
 
 

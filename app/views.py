@@ -32,7 +32,7 @@ allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
 class Server(object):
     def __init__(self):
         self.hostname = os.uname().nodename
-        self.free = (psutil.virtual_memory().free*100)/psutil.virtual_memory().total
+        self.free = (psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
 
 
 class FilemanagerMixin(object):
@@ -58,6 +58,9 @@ class FilemanagerMixin(object):
 
         if hasattr(self, 'extra_breadcrumbs') and isinstance(self.extra_breadcrumbs, list):
             context['breadcrumbs'] += self.extra_breadcrumbs
+
+        context['server'] = Server()
+        print(123)
 
         return context
 
@@ -129,8 +132,6 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
         else:
             context['files'] = self.fm.directory_list()
             context['empty'] = 'Folder is empty'
-
-        context['server'] = Server()
 
         context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
         context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
