@@ -13,7 +13,7 @@ def get_el_number(dnum, fnum):
         result = '{} ФАЙЛОВ'.format(fnum)
     elif temp == 1:
         result = '{} ФАЙЛ'.format(fnum)
-    elif temp >= 2 and temp <= 4:
+    elif 2 <= temp <= 4:
         result = '{} ФАЙЛА'.format(fnum)
 
     temp = dnum % 10
@@ -25,9 +25,7 @@ def get_el_number(dnum, fnum):
         result += '{} ПАПОК'.format(dnum)
     elif temp == 1:
         result += '{} ПАПКА'.format(dnum)
-    elif temp >= 2 and temp <= 4:
+    elif 2 <= temp <= 4:
         result += '{} ПАПКИ'.format(dnum)
 
     return result
-
-

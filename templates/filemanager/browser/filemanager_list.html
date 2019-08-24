@@ -190,25 +190,25 @@
              });
       }
     });
-   $('.link-modal-btn').click(function () {
-         var path = $(this).data('href');
-          $.ajax({
-            url:     path ,
-            type:    'get'
-          });
-          var filename = $(this).attr('data');
-          var url = $(this).attr('data-url');
-          $('#link-modal .modal-title').html('Ссылка на папку "<b>'+ filename +'</b>"');
-          $("#link-modal #link-access-btn").attr('data', url);
-          $("#link-modal #link-url-btn").attr('data', url);
-          $("#save-urls").attr('data', url);
-          $('#link-modal').modal('show');
-    });
+  $('.link-modal-btn').click(function () {
+     var path = $(this).data('href');
+      $.ajax({
+        url:     path ,
+        type:    'get'
+      });
+      var filename = $(this).attr('data');
+      var url = $(this).attr('data-url');
+      $('#link-modal .modal-title').html('Ссылка на папку "<b>'+ filename +'</b>"');
+      $("#link-modal #link-access-btn").attr('data', url);
+      $("#link-modal #link-url-btn").attr('data', url);
+      $("#save-urls").attr('data', url);
+      $('#link-modal').modal('show');
+  });
 
-    $('#auth-modal-btn').click(function (e) {
-      e.preventDefault();
-      $('#auth-modal').modal('show');
-    });
+  $('#auth-modal-btn').click(function (e) {
+    e.preventDefault();
+    $('#auth-modal').modal('show');
+  });
    
   $("#link-access-btn").click(function() {
     if($(this).find('div.off').length !== 0) {
@@ -217,6 +217,7 @@
       $.post("/unblock/", {'path':$(this).attr('data'), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
     }
   });
+
   $("#link-url-btn").click(function() {
     if($(this).find('div.off').length !== 0) {
       $.post("/access_to_url/", {'path':$(this).attr('data'), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
@@ -256,6 +257,25 @@
           'username': $('#id_username').val(),
           'password': $('#id_password').val(),
           'login': $('#id_login').val(),
+          'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function(response) {
+            if (response['result'] === "Success!") {
+                let url = "/";
+                $(location).attr('href', url);
+            } else {
+                $('#error-login').show();
+            }
+        }
+      });
+    });
+    $('#logout_button').on("click", function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: './',
+        data: {
+          'logout': $('#id_logout').val(),
           'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
         },
         success: function(response) {

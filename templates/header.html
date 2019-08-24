@@ -19,7 +19,15 @@
 					<a href="#" class="site-links">SHAREWOOD@BARRET.PRO<img style="margin-left: 8px" src="{% static 'img/array-down.png' %}"></a>
 				</td>
 				<td>
-					<a href="#" class="site-links" id="auth-modal-btn" style="margin-right: 10px"> ВХОД </a>
+					{% if request.user.is_authenticated %}
+                        <form class="form-inline" id='link-form' method="post" action="" style="">
+                          {% csrf_token %}
+                          <input name="logout" value="logout" id="id_logout" hidden>
+                          <button id="logout_button" style="margin-right: 10px">ВЫЙТИ</button>
+                        </form>
+                    {% else %}
+                        <a href="#" class="site-links" id="auth-modal-btn" style="margin-right: 10px"> ВХОД </a>
+                    {% endif %}
 				</td>
 			</tr>
 		</table>
