@@ -40,25 +40,24 @@ $("#download-btn").on("click", function () {
                 }
                 
                 var array = {
-                    url:'',
-                    filename:'',
-                    isDir:'',
+                    url : url,
+                    filename : filename,
+                    isDir : isDirectory,
                 };
 
-                array.url = url;
-                array.filename = filename;
-                array.isDir = isDirectory;
-
-                zip_files[zip_count] = JSON.stringify(array);
+                zip_files[zip_count] = array;
                 zip_count = zip_count + 1;
             
             });
 
-            zip_files["csrfmiddlewaretoken"] = $("input[name=csrfmiddlewaretoken]").val();
+            files = {
+                files: JSON.stringify(zip_files),
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+            };
 
-            console.log(zip_files);
+            console.log(files);
             
-            $.post("/download/", zip_files);
+            $.post("/download/", files);
 
             // when everything has been downloaded, we can trigger the dl
             zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
