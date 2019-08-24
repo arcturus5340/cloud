@@ -33,7 +33,7 @@ $("#download-btn").on("click", function () {
             $(".checkbox:checked").each(function () {
                 var isDirectory = false;
                 var $this = $(this);
-                var url = $this.data("url");
+                var url = $this.data("path");
                 var filename = $this.closest('tr').find('.clickable-row').text();
                 if($this.attr('id')=='check-dir'){
                     isDirectory = true;

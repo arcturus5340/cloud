@@ -37,14 +37,14 @@
               {% for file in files %}
               {% if file.filetype == "Directory" %}
               <tr data-href="?path={{file.filepath}}{% if popup %}&amp;popup=1{% endif %}">
-                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-dir"  data-url="{{file.filepath}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
+                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-dir"  data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" data-path="{{file.filepath}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
                 <td width="62%"><font class="top-buttons-font"><img src="/static/img/folder.png" class="top-buttons-img" style="margin-bottom: -8px;"><a href="?path={{file.filepath}}{% if popup %}&amp;popup=1{% endif %}" class="item-link clickable-row">{{file.filename}}</a></font></td>
                 <td width="8.5%"><font class="top-buttons-font"><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" class="item-link download-item download-folder" data="{{file.filename}}"><img class="download-img top-buttons-img" src="/static/img/download-btn.png"> {{file.filesize}}</a></font></td>
                 <td width="7%"><font class="top-buttons-font"><img class="top-buttons-img" src="/static/img/calendar.png"> {{file.filedate}}</font></td>
               </tr>
               {% else %}
               <tr data-href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}">
-                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-file" data-url="{{file.filepath}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
+                <td width="3%"><input type="checkbox" class="mgc mgr-lg checkbox" id="check-file" data-url="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" data-path="{{file.filepath}}{% if popup %}&amp;popup=1{% endif %}" style="background-color: #f5f2ee;"></td>
                 <td width="62%"><font><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" class="item-link clickable-row">{{file.filename}}</a></font></td>
                 <td width="8.5%"><font class="top-buttons-font"><a href="{{file.fileurl}}{% if popup %}&amp;popup=1{% endif %}" download class="item-link download-item"><img class="download-img top-buttons-img" src="/static/img/download-btn.png"> {{file.filesize}}</a></font></td>
                 <td width="7%"><font class="top-buttons-font"><img class="top-buttons-img" src="/static/img/calendar.png"> {{file.filedate}}</font></td>
