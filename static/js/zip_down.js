@@ -26,28 +26,36 @@ function urlToPromise(url) {
 
 $("#download-btn").on("click", function () {
     var zip = new JSZip();
+    var zip_files = [];
+    var zip_count = 0;
     // find every checked item
     if($(".checkbox:checked").length>0){
             $(".checkbox:checked").each(function () {
-            var $this = $(this);
-            var url = $this.data("url");
-            var filename = $this.closest('tr').find('.clickable-row').text();
-            if($this.attr('id')=='check-dir'){
-                zip.folder(filename);
-            } else {
-                zip.file(filename, urlToPromise(url), {binary:true, createFolders: true});
-            }
+                var isDirectory = false;
+                var $this = $(this);
+                var url = $this.data("url");
+                var filename = $this.closest('tr').find('.clickable-row').text();
+                if($this.attr('id')=='check-dir'){
+                    isDirectory = true;
+                }
 
+                zip_files.push({
+                    'url': url,
+                    'filename': filename,
+                    'isDir': isDirectory
+                });
             });
+            
+            $.post("/download/", {files:zip_files, 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
 
-        // when everything has been downloaded, we can trigger the dl
+            // when everything has been downloaded, we can trigger the dl
             zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
 
             })
             .then(function callback(blob) {
 
                 // see FileSaver.js
-                saveAs(blob, "download.zip");
+                //saveAs(blob, "download.zip");
             }, function (e) {
             });
         }
