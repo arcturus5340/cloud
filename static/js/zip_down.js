@@ -57,7 +57,10 @@ $("#download-btn").on("click", function () {
 
             console.log(files);
             
-            $.post("/download/", files);
+            $.post("/download/", files)
+            .done(function(data) {
+                document.getElementById('my_iframe').src = data.path;
+            });
 
             // when everything has been downloaded, we can trigger the dl
             zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
