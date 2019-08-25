@@ -188,6 +188,7 @@ class DetailView(FilemanagerMixin, JSONResponseMixin, django.views.generic.Templ
     #     return django.http.JsonResponse({'data':'james'})
 
 
+# TODO: sha in zip file name
 class DownloadView(FilemanagerMixin, django.views.generic.TemplateView):
     def post(self, request):
         with zipfile.ZipFile(os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
@@ -197,10 +198,10 @@ class DownloadView(FilemanagerMixin, django.views.generic.TemplateView):
                         for file in files:
                             archive.write(os.path.join(root, file), os.path.join(os.path.relpath(root, app.settings.MEDIA_ROOT), file))
                 else:
-                    archive.write(os.path.join(app.settings.MEDIA_ROOT, file_data['url']), os.path.join(os.path.relpath(file_data['url'], app.settings.MEDIA_ROOT), file_data['filename']))
+                    archive.write(os.path.join(app.settings.MEDIA_ROOT, file_data['url']), file_data['url'])
 
         response = {'result': 'Success!',
-                    'path': os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip')}
+                    'path': os.path.join(cloud.settings.MEDIA_URL, 'zipped/download.zip')}
         return django.http.HttpResponse(json.dumps(response), content_type="application/json")
 
 
