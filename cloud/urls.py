@@ -11,6 +11,7 @@ urlpatterns = [
     }),
     django.urls.path(r'', app.views.BrowserView.as_view(), name='browser'),
     django.urls.path(r'detail/', app.views.DetailView.as_view(), name='detail'),
+    django.urls.path(r'download/', app.views.DownloadView.as_view(), name='download'),
     django.urls.path(r'upload/', app.views.UploadView.as_view(), name='upload'),
     django.urls.path(r'upload/file/', django.views.decorators.csrf.csrf_exempt(app.views.UploadFileView.as_view()), name='upload-file'),
     django.urls.path(r'create/directory/', app.views.DirectoryCreateView.as_view(), name='create-directory'),

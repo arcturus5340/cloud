@@ -12,10 +12,14 @@ import json
 import os
 import psutil
 import re
+import zipfile
 
 import app.core
 import app.forms
 import app.models
+import app.settings
+
+import cloud.settings
 
 
 allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
@@ -182,6 +186,22 @@ class DetailView(FilemanagerMixin, JSONResponseMixin, django.views.generic.Templ
     # def get(self, request, *args, **kwargs):
     #
     #     return django.http.JsonResponse({'data':'james'})
+
+
+class DownloadView(FilemanagerMixin, django.views.generic.TemplateView):
+    def post(self, request):
+        with zipfile.ZipFile(os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
+            for _, file_data in json.loads(request.POST.get('files')).items():
+                if file_data['isDir']:
+                    for root, dirs, files in os.walk(os.path.join(app.settings.MEDIA_ROOT, file_data['url'])):
+                        for file in files:
+                            archive.write(os.path.join(root, file), os.path.join(os.path.relpath(root, app.settings.MEDIA_ROOT), file))
+                else:
+                    archive.write(os.path.join(app.settings.MEDIA_ROOT, file_data['url']), os.path.join(os.path.relpath(file_data['url'], app.settings.MEDIA_ROOT), file_data['filename']))
+
+        response = {'result': 'Success!',
+                    'path': os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip')}
+        return django.http.HttpResponse(json.dumps(response), content_type="application/json")
 
 
 class UploadView(FilemanagerMixin, django.views.generic.TemplateView):
