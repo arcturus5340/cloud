@@ -106,8 +106,8 @@ jQuery(document).ready(function($) {
         dataType: 'json',
         start: function (e) {
             var strProgress = 0 + "%";
-            $(".progress-bar").css({"width": strProgress});
-            $(".progress-bar").text(strProgress);
+            $("#progress-upload").css({"width": strProgress});
+            $("#progress-upload").text(strProgress);
         },
 
         done: function(e, data) {
@@ -122,8 +122,8 @@ jQuery(document).ready(function($) {
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             var strProgress = progress + "%";
-            $(".progress-bar").css({"width": strProgress});
-            $(".progress-bar").text(strProgress);
+            $("#progress-upload").css({"width": strProgress});
+            $("#progress-upload").text(strProgress);
         }
     });
 
@@ -231,7 +231,7 @@ function on_checkbox_selected() {
                     $('.checkAll').prop('checked', true);
                 }
             } else {
-
+                 $('.checkAll').prop('checked', false);
                  $('#rename-modal-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#replace-modal-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#download-btn').addClass('btn-inactive').prop('disabled', true);
