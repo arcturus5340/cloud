@@ -164,25 +164,6 @@
   $(".support").mouseleave(function() {
     $(this).find(".support-img").attr('src', '/static/img/support.png')
   });
-  
-  $(".download-folder").on("click", function () {
-
-    var zip = new JSZip();
-    // find every checked item
-    var $this = $(this);
-    var url = $this.data("href");
-    var filename = $(this).attr('data');
-    
-    zip.folder(filename);
-    zip.generateAsync({type:"blob"}, function updateCallback(metadata) {
-    })
-    .then(function callback(blob) {
-        saveAs(blob, "download.zip");
-    }, function (e) {
-    });
-
-    return false;
-  });
 
   $('#replace-modal-btn').click(function () {
       if($('.checkbox:checked').length==1){
@@ -226,9 +207,9 @@
    
   $("#link-access-btn").click(function() {
     if($(this).find('div.off').length !== 0) {
-      $.post("/block/", {'path':$(this).attr('data'), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
-    } else {
       $.post("/unblock/", {'path':$(this).attr('data'), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
+    } else {
+      $.post("/block/", {'path':$(this).attr('data'), 'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()});
     }
   });
 
