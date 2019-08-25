@@ -23,4 +23,5 @@ urlpatterns = [
     django.urls.path(r'access_to_url/', app.views.AccessUrlView.as_view(), name='acess-to-url'),
     django.urls.path(r'unaccess_to_url/', app.views.UnaccessUrlView.as_view(), name='unacess-to-url'),
     django.urls.path(r'save-urls/', app.views.SaveUrlView.as_view(), name='save-urls'),
+    django.urls.path(r'public/<link>', app.views.PublicView.as_view(), name='public'),
 ]

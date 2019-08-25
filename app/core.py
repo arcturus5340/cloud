@@ -82,7 +82,46 @@ class Filemanager(object):
                 'filedate': STORAGE.get_modified_time(os.path.join(self.path, name)),
                 'filesize': sizeof_fmt(STORAGE.size(os.path.join(self.path, name))),
                 'fileurl' : os.path.join(settings.MEDIA_URL, self.abspath, name),
+                'link': app.models.Files.objects.get(location=os.path.join(self.path, name)).link,
             }
+        for directoryname in directories:
+            print(os.path.join(self.location, directoryname))
+            listing.append(_helper(directoryname, 'Directory'))
+
+        for filename in files:
+            print(os.path.join(self.location, filename))
+            listing.append(_helper(filename, 'File'))
+
+        return listing
+
+
+    def public_directory_list(self, location, link):
+
+        def _helper(name, filetype):
+            return {
+                'filepath': os.path.join(location, name),
+                'filetype': filetype,
+                'filename': name,
+                'filedate': STORAGE.get_modified_time(os.path.join(location, name)),
+                'filesize': sizeof_fmt(STORAGE.size(os.path.join(location, name))),
+                'fileurl': os.path.join(app.settings.MEDIA_URL, location, name),
+                'link': link,
+            }
+
+        listing = []
+
+        if os.path.isfile(os.path.join(app.settings.MEDIA_ROOT, location)):
+
+            location, filename = location.split('/')[:-1], location.split('/')[-1]
+            if location:
+                location = os.path.join(*location)
+            else:
+                location = ''
+            listing.append(_helper(filename, 'File'))
+            print(listing)
+            return listing
+
+        directories, files = STORAGE.listdir(location)
 
         for directoryname in directories:
             listing.append(_helper(directoryname, 'Directory'))
@@ -92,6 +131,7 @@ class Filemanager(object):
 
         return listing
 
+
     def upload_file(self, rel_path, filedata):
         filename = STORAGE.get_valid_name(filedata.name)
         filepath = os.path.join(self.path, rel_path)
@@ -99,7 +139,7 @@ class Filemanager(object):
         STORAGE.save(filepath, filedata)
         if not app.models.Files.objects.filter(location=filepath).exists():
             app.models.Files.objects.create(location=filepath,
-                                        link='sharewood.cloud/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
+                                        link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
                                         blocked=0,
                                         url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
@@ -121,6 +161,7 @@ class Filemanager(object):
         os.replace(os.path.join(self.location, src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
 
     def remove(self, name):
+        app.models.Files.objects.get(location=name).delete()
         if os.path.isdir(os.path.join(self.location, name)):
             shutil.rmtree(os.path.join(self.location, name))
         else:
