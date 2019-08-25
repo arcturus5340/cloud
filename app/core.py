@@ -26,6 +26,7 @@ class Filemanager(object):
         self.location = os.path.join(settings.MEDIA_ROOT, self.abspath)
         self.url = os.path.join(settings.MEDIA_URL, self.abspath)
 
+
     def validate_path(self, path):
         # replace backslash with slash
         path = path.replace('\\', '/')
@@ -67,6 +68,7 @@ class Filemanager(object):
             'filesize': sizeof_fmt(STORAGE.size(self.location)),
             'filedate': STORAGE.get_modified_time(self.location),
             'fileurl': self.url,
+            'link':  app.models.Files.objects.get(location=os.path.join(self.path, filename)).link,
         }
 
     def directory_list(self):
@@ -85,11 +87,9 @@ class Filemanager(object):
                 'link': app.models.Files.objects.get(location=os.path.join(self.path, name)).link,
             }
         for directoryname in directories:
-            print(os.path.join(self.location, directoryname))
             listing.append(_helper(directoryname, 'Directory'))
 
         for filename in files:
-            print(os.path.join(self.location, filename))
             listing.append(_helper(filename, 'File'))
 
         return listing

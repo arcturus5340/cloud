@@ -139,6 +139,7 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
 
         context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
         context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
+        context['public'] = False
 
         return context
 
@@ -170,19 +171,26 @@ class PublicView(FilemanagerMixin, django.views.generic.TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.popup = self.request.GET.get('popup', 0) == '1'
+        self.flag = True
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
 
         context['popup'] = self.popup
 
-        location = app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).location
-        context['files'] = self.fm.public_directory_list(location, kwargs['link'])
-        context['empty'] = 'Folder is empty'
+        if self.request.GET.get('path'):
+            context['files'] = self.fm.directory_list()
+            context['empty'] = 'Folder is empty'
+        else:
+            location = app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).location
+            context['files'] = self.fm.public_directory_list(location, kwargs['link'])
+            context['empty'] = 'Folder is empty'
 
         context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
         context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
+        context['public'] = True
 
         return context
 
