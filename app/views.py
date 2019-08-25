@@ -8,6 +8,7 @@ import django.views.generic
 import django.views.generic.base
 
 import collections
+import hashlib
 import json
 import os
 import psutil
@@ -215,6 +216,15 @@ class UploadView(FilemanagerMixin, django.views.generic.TemplateView):
 
 class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
     def post(self, request, *args, **kwargs):
+
+        l = request.POST['rel_path'].split('/')
+        for i in range(1, len(l)):
+            # TODO: Thread-race
+            if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
+                app.models.Files.objects.create(location=os.path.join(*l[:i]),
+                                                link='sharewood.cloud/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
+                                                blocked=0,
+                                                url_access=0)
 
         # TODO: get filepath and validate characters in name, validate mime type and extension
         filename = self.fm.upload_file(request.POST['rel_path'], request.FILES['files[]'])
