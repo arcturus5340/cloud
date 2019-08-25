@@ -97,7 +97,8 @@ class Filemanager(object):
         filepath = os.path.join(self.path, rel_path)
         app.signals.filemanager_pre_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         STORAGE.save(filepath, filedata)
-        app.models.Files.objects.create(location=filepath,
+        if not app.models.Files.objects.filter(location=filepath).exists():
+            app.models.Files.objects.create(location=filepath,
                                         link='sharewood.cloud/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
                                         blocked=0,
                                         url_access=0)
