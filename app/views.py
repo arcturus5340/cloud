@@ -95,7 +95,7 @@ class JSONResponseMixin:
 
 
 class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
-    template_name = 'filemanager/browser/filemanager_list_user.html'
+    template_name = 'filemanager/browser/filemanager_list.html'
 
     def dispatch(self, request, *args, **kwargs):
         self.popup = self.request.GET.get('popup', 0) == '1'
@@ -139,6 +139,7 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
 
         context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
         context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
+        context['public'] = False
 
         return context
 
@@ -157,13 +158,62 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
                 response_data['result'] = 'Success!'
             else:
                 response_data['result'] = 'Failed!'
-            BrowserView.template_name = 'filemanager/browser/filemanager_list.html'
             return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
 
         if request.POST.get('logout'):
             django.contrib.auth.logout(request)
             response_data = {'result': 'Success!'}
-            BrowserView.template_name = 'filemanager/browser/filemanager_list_user.html'
+            return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+class PublicView(FilemanagerMixin, django.views.generic.TemplateView):
+    template_name = 'filemanager/browser/filemanager_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.popup = self.request.GET.get('popup', 0) == '1'
+        self.flag = True
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['popup'] = self.popup
+
+        if self.request.GET.get('path'):
+            context['files'] = self.fm.directory_list()
+            context['empty'] = 'Folder is empty'
+        else:
+            location = app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).location
+            context['files'] = self.fm.public_directory_list(location, kwargs['link'])
+            context['empty'] = 'Folder is empty'
+
+        context['n_dir'] = len([file for file in context['files'] if file['filetype'] == 'Directory'])
+        context['n_file'] = len([file for file in context['files'] if file['filetype'] == 'File'])
+        context['public'] = True
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('login'):
+            if request.META['REMOTE_ADDR'] not in allowedIps:
+                return django.http.HttpResponse('Invalid Ip Access!')
+
+            user_login = request.POST.get('username')
+            user_password = request.POST.get('password')
+            user = django.contrib.auth.authenticate(username=user_login, password=user_password)
+
+            response_data = {}
+            if user:
+                django.contrib.auth.login(request, user)
+                response_data['result'] = 'Success!'
+            else:
+                response_data['result'] = 'Failed!'
+            return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        if request.POST.get('logout'):
+            django.contrib.auth.logout(request)
+            response_data = {'result': 'Success!'}
             return django.http.HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -214,20 +264,22 @@ class UploadView(FilemanagerMixin, django.views.generic.TemplateView):
     }]
 
 
+from django.db import transaction
 class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
-    def post(self, request, *args, **kwargs):
 
-        l = request.POST['rel_path'].split('/')
-        for i in range(1, len(l)):
-            # TODO: Thread-race
-            if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
-                app.models.Files.objects.create(location=os.path.join(*l[:i]),
-                                                link='sharewood.cloud/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
-                                                blocked=0,
-                                                url_access=0)
+    def post(self, request, *args, **kwargs):
 
         # TODO: get filepath and validate characters in name, validate mime type and extension
         filename = self.fm.upload_file(request.POST['rel_path'], request.FILES['files[]'])
+
+        l = request.POST['rel_path'].split('/')
+        with transaction.atomic():
+            for i in range(1, len(l)):
+                if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
+                    app.models.Files.objects.create(location=os.path.join(*l[:i]),
+                                                    link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
+                                                    blocked=0,
+                                                    url_access=0)
 
         return django.shortcuts.HttpResponse(json.dumps({
             'files': [{'name': filename}],

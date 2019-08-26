@@ -67,13 +67,13 @@
               <tr>
                 <td class="fm-head">
                 <input type="checkbox" class="checkAll mgc mgr-lg" name="checkAll" style="margin-right: 20px; margin-left: 1.5px"/>
-                  <font>{% for breadcrumb in breadcrumbs %}
+                  <font>{% if not public %}{% for breadcrumb in breadcrumbs %}
                   {% if forloop.last %}
                   > {{breadcrumb.label}}
                   {% else %}
                   <a href="{% url 'browser' %}?path={{breadcrumb.path}}{% if popup %}&amp;popup=1{% endif %}" style="text-decoration: none; color: #5eb961;">> {{breadcrumb.label}}</a>
                   {% endif %}
-                  {% endfor %}</font>
+                  {% endfor %}{% endif %}</font>
                   {% load utils %}
                   <font style="float:right">{% get_el_number n_dir n_file %}</font>
                 </td>
