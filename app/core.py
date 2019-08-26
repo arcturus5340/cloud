@@ -135,6 +135,7 @@ class Filemanager(object):
     def upload_file(self, rel_path, filedata):
         filename = STORAGE.get_valid_name(filedata.name)
         filepath = os.path.join(self.path, rel_path)
+
         app.signals.filemanager_pre_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         STORAGE.save(filepath, filedata)
         if not app.models.Files.objects.filter(location=filepath).exists():
@@ -162,10 +163,10 @@ class Filemanager(object):
 
     def remove(self, name):
         app.models.Files.objects.get(location=name).delete()
-        if os.path.isdir(os.path.join(self.location, name)):
-            shutil.rmtree(os.path.join(self.location, name))
+        if os.path.isdir(os.path.join(settings.MEDIA_ROOT, "uploads/", name)):
+            shutil.rmtree(os.path.join(settings.MEDIA_ROOT, "uploads/", name))
         else:
-            os.remove(os.path.join(self.location, name))
+            os.remove(os.path.join(settings.MEDIA_ROOT, "uploads/", name))
 
     def search(self, name):
         startpath = os.path.join(settings.MEDIA_ROOT, self.abspath)

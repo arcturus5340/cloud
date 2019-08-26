@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
         var files = [];
         var fa_html = [];
         $('.checkbox:checked').each(function () {
-            files.push($(this).closest('tr').find('.clickable-row').text());
+            files.push($(this).data('path'));
             fa_html.push($(this).closest('tr').find('span').html())
         });
 
@@ -108,6 +108,10 @@ jQuery(document).ready(function($) {
             var strProgress = 0 + "%";
             $("#progress-upload").css({"width": strProgress});
             $("#progress-upload").text(strProgress);
+        },
+
+        add: function (e, data) {
+            var jqXHR = data.submit();
         },
 
         done: function(e, data) {
