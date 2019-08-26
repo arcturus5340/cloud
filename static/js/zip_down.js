@@ -76,3 +76,36 @@ $("#download-btn").on("click", function () {
 
     return false;
 });
+
+$(".download-folder").on("click", function (e) {
+    e.preventDefault();
+    var zip = new JSZip();
+    var zip_files = {};
+    
+    var isDirectory = true;
+    var $this = $(this);
+    var url = $this.data("path");
+    var filename = $this.attr("data");
+    
+    var array = {
+        url : url,
+        filename : filename,
+        isDir : isDirectory,
+    };
+
+    zip_files[0] = array;
+
+    files = {
+        files: JSON.stringify(zip_files),
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+    };
+
+    console.log(files);
+    
+    $.post("/download/", files)
+    .done(function(data) {
+        document.getElementById('my_iframe').src = data.path;
+    });
+
+    return false;
+});
