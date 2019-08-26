@@ -57,17 +57,17 @@ jQuery(document).ready(function($) {
 
 
         $('#remove-files').click(function (event) {
-                 $.ajax({
-                url:      path,
+            $.ajax({
+                url: path,
                 contentType: "application/json",
                 type:    'post',
                 data: JSON.stringify({'files': files}),
                 success: function(data) {
                     location.reload();
                 }
-                });
+            });
 
-             event.preventDefault();
+            event.preventDefault();
         });
 
 
@@ -160,7 +160,7 @@ jQuery(document).ready(function($) {
 
        $('#replace-modal-btn').click(function () {
          if($('.checkbox:checked').length==1){
-             var path = $(this).data('href');
+            /* var path = $(this).data('href');
              $.ajax({
                 url:     path ,
                 type:    'get'
@@ -177,7 +177,7 @@ jQuery(document).ready(function($) {
                    .attr("name", "old_path").val(filename);
 
                 $('#replace-form').append($(input));
-             });
+             });*/
          }
     });
 

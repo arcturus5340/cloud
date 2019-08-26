@@ -158,7 +158,7 @@ class Filemanager(object):
 
     def replace(self, src, dst):
         # TODO: os.path() don't work for this sample
-        os.replace(os.path.join(self.location, src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
+        os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads/', src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
 
     def remove(self, name):
         app.models.Files.objects.get(location=name).delete()
