@@ -213,7 +213,6 @@ function on_checkbox_selected() {
                 $('#delete-modal-btn').removeClass('btn-inactive').prop('disabled',false);
                 
                 if(checkbox.length==1) {
-                    $('#public-access-btn').removeClass('btn-inactive').prop('disabled',false);
                     $('#rename-modal-btn').removeClass('btn-inactive').prop('disabled',false);
                     $('#replace-modal-btn').removeClass('btn-inactive').prop('disabled',false);
                     $('#get-link-btn').removeClass('btn-inactive').prop('disabled',false);
@@ -222,7 +221,6 @@ function on_checkbox_selected() {
                     $('#rename-modal-btn').addClass('btn-inactive').prop('disabled',true);
                     $('#replace-modal-btn').addClass('btn-inactive').prop('disabled',true);
                     $('#get-link-btn').addClass('btn-inactive').prop('disabled',true);
-                    $('#public-access-btn').addClass('btn-inactive').prop('disabled',true);
                 }
 
                 if (checkbox.length < checkbox_count) {
@@ -235,7 +233,6 @@ function on_checkbox_selected() {
                  $('#rename-modal-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#replace-modal-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#download-btn').addClass('btn-inactive').prop('disabled', true);
-                 $('#public-access-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#get-link-btn').addClass('btn-inactive').prop('disabled', true);
                  $('#delete-modal-btn').addClass('btn-inactive').prop('disabled',true);
 
