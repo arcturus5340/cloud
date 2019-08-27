@@ -206,10 +206,11 @@
       'old_path': replace_file, 
       'input_path': path,
       'csrfmiddlewaretoken': token
+    }).done(function() {
+      Cookies.remove('replace');
+      location.reload();
     });
     
-    Cookies.remove('replace');
-    location.reload();
   });
 
   $('.link-modal-btn').click(function () {
