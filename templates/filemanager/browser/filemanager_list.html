@@ -214,7 +214,7 @@
 
   $('.link-modal-btn').click(function () {
     var filename = $(this).attr('data');
-    var url = $(this).attr('data-path');
+    var url = $(this).data('url');
     $('#link-modal .modal-title').html('Ссылка на папку "<b>'+ filename +'</b>"');
     $("#link-modal #link-access-btn").attr('data', url);
     $("#link-modal #link-url-btn").attr('data', url);
@@ -224,7 +224,7 @@
 
   $('#get-link-btn').click(function () {
     var filename = $(".items .checkbox:checked").attr('data');
-    var url = $(".items .checkbox:checked").attr('data-path');
+    var url = $(".items .checkbox:checked").data('path');
     $('#link-modal .modal-title').html('Ссылка на папку "<b>'+ filename +'</b>"');
     $("#link-modal #link-access-btn").attr('data', url);
     $("#link-modal #link-url-btn").attr('data', url);
