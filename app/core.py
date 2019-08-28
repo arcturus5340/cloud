@@ -71,7 +71,7 @@ class Filemanager(object):
             'link':  app.models.Files.objects.get(location=os.path.join(self.path, filename)).link,
             'blocked': app.models.Files.objects.get(location=os.path.join(self.path, filename)).blocked,
             'url_access': app.models.Files.objects.get(location=os.path.join(self.path, filename)).url_access,
-            'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, filename)).allowed_urls.split(', '),
+            'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, filename)).allowed_urls,
         }
 
     def directory_list(self):
@@ -90,11 +90,10 @@ class Filemanager(object):
                 'link': app.models.Files.objects.get(location=os.path.join(self.path, name)).link,
                 'blocked': app.models.Files.objects.get(location=os.path.join(self.path, name)).blocked,
                 'url_access': app.models.Files.objects.get(location=os.path.join(self.path, name)).url_access,
-                'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, name)).allowed_urls.split(', '),
+                'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, name)).allowed_urls,
             }
 
         for directoryname in directories:
-            print(os.path.join(self.path, directoryname))
             listing.append(_helper(directoryname, 'Directory'))
 
         for filename in files:
@@ -116,7 +115,7 @@ class Filemanager(object):
                 'link': link,
                 'blocked': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).blocked,
                 'url_access': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).url_access,
-                'allowed_urls': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).allowed_urls.split(', '),
+                'allowed_urls': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).allowed_urls,
             }
 
         listing = []
@@ -151,9 +150,9 @@ class Filemanager(object):
         STORAGE.save(filepath, filedata)
         if not app.models.Files.objects.filter(location=filepath).exists():
             app.models.Files.objects.create(location=filepath,
-                                        link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
-                                        blocked=0,
-                                        url_access=0)
+                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
+                                            blocked=0,
+                                            url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         return filename
 

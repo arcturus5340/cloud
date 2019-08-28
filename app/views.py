@@ -272,14 +272,19 @@ class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
         # TODO: get filepath and validate characters in name, validate mime type and extension
         filename = self.fm.upload_file(request.POST['rel_path'], request.FILES['files[]'])
 
-        l = request.POST['rel_path'].split('/')
+        l = os.path.join(self.fm.path, request.POST['rel_path']).split('/')
         with transaction.atomic():
             for i in range(1, len(l)):
-                if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
-                    app.models.Files.objects.create(location=os.path.join(*l[:i]),
-                                                    link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
-                                                    blocked=0,
-                                                    url_access=0)
+                while True:
+                    try:
+                        if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
+                            app.models.Files.objects.create(location=os.path.join(*l[:i]),
+                                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
+                                                            blocked=0,
+                                                            url_access=0)
+                        break
+                    except:
+                        pass
 
         return django.shortcuts.HttpResponse(json.dumps({
             'files': [{'name': filename}],
