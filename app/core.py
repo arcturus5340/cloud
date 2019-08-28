@@ -151,7 +151,7 @@ class Filemanager(object):
         if not app.models.Files.objects.filter(location=filepath).exists():
             app.models.Files.objects.create(location=filepath,
                                             link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
-                                            blocked=0,
+                                            blocked=1,
                                             url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         return filename

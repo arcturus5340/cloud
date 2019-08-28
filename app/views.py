@@ -275,16 +275,11 @@ class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
         l = os.path.join(self.fm.path, request.POST['rel_path']).split('/')
         with transaction.atomic():
             for i in range(1, len(l)):
-                while True:
-                    try:
-                        if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
-                            app.models.Files.objects.create(location=os.path.join(*l[:i]),
-                                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
-                                                            blocked=0,
-                                                            url_access=0)
-                        break
-                    except:
-                        pass
+                if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
+                    app.models.Files.objects.create(location=os.path.join(*l[:i]),
+                                                    link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
+                                                    blocked=1,
+                                                    url_access=0)
 
         return django.shortcuts.HttpResponse(json.dumps({
             'files': [{'name': filename}],
@@ -339,8 +334,15 @@ class DeleteView(FilemanagerMixin, django.views.generic.base.View):
     def post(self, request):
         json_data = json.loads(request.body.decode("utf-8") )
         try:
+
+
             for files in json_data['files']:
                 self.fm.remove(files)
+                with transaction.atomic():
+                    for file in app.models.Files.objects.all():
+                        if file.location.startswith(files):
+                            file.delete()
+
 
         except Exception as e:
             print(e)
