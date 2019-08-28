@@ -380,6 +380,13 @@ class ReplaceView(FilemanagerMixin, django.views.generic.FormView):
 
     def form_valid(self, form):
         self.fm.replace(form.cleaned_data.get('old_path'), form.cleaned_data.get('input_path'))
+
+        with transaction.atomic():
+            for file in app.models.Files.objects.all():
+                if file.location.startswith(form.cleaned_data.get('old_path')):
+                    file.location = os.path.join(form.cleaned_data.get('input_path'), file.location)
+                    file.save()
+
         return super(ReplaceView, self).form_valid(form)
 
 

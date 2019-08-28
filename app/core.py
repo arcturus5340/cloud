@@ -182,7 +182,6 @@ class Filemanager(object):
             file.location = '{}'.format(src.split('/')[-1])
         else:
             file.location = '{}/{}'.format(dst, src.split('/')[-1])
-        print(file.location)
         file.save()
 
     def remove(self, name):
