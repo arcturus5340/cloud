@@ -175,6 +175,14 @@ class PublicView(FilemanagerMixin, django.views.generic.TemplateView):
     template_name = 'filemanager/browser/filemanager_list.html'
 
     def dispatch(self, request, *args, **kwargs):
+        if app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).blocked:
+            return django.shortcuts.render(self.request, '404.html')
+        try:
+            if request.META.get('HTTP_REFERER').split('/')[2].split(':')[0] not in app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).allowed_urls.split(', '):
+                return django.shortcuts.render(self.request, '404.html')
+        except:
+            return django.shortcuts.render(self.request, '404.html')
+
         self.popup = self.request.GET.get('popup', 0) == '1'
         self.flag = True
         return super().dispatch(request, *args, **kwargs)
