@@ -128,7 +128,6 @@ class Filemanager(object):
             else:
                 location = ''
             listing.append(_helper(filename, 'File'))
-            print(listing)
             return listing
 
         directories, files = STORAGE.listdir(location)
@@ -162,14 +161,26 @@ class Filemanager(object):
 
         path = os.path.join(self.path, tmpfile)
         STORAGE.save(path, ContentFile(''))
+        if not app.models.Files.objects.filter(location=os.path.join(self.path, name)).exists():
+            app.models.Files.objects.create(location=os.path.join(self.path, name),
+                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(self.path, name).encode('utf-8')).hexdigest()),
+                                            blocked=1,
+                                            url_access=0)
         STORAGE.delete(path)
 
     def rename(self, src, dst):
         os.rename(os.path.join(self.location, src), os.path.join(self.location, dst))
+        file = app.models.Files.objects.get(location=os.path.join(self.path, src))
+        file.location = os.path.join(self.path, dst)
+        file.save()
 
     def replace(self, src, dst):
         # TODO: os.path() don't work for this sample
-        os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads/', src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
+        os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads', src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
+        file = app.models.Files.objects.get(location=os.path.join(self.path, src))
+        if dst[0] == '/': dst = dst[1:]
+        file.location = '{}{}'.format(dst, src.split('/')[-1])
+        file.save()
 
     def remove(self, name):
         app.models.Files.objects.get(location=name).delete()

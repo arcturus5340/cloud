@@ -270,7 +270,8 @@ class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
     def post(self, request, *args, **kwargs):
 
         # TODO: get filepath and validate characters in name, validate mime type and extension
-        filename = self.fm.upload_file(request.POST['rel_path'], request.FILES['files[]'])
+        rel_path = os.path.join(request.POST['rel_path'], request.POST['filename']) if not request.POST['rel_path'] else request.POST['rel_path']
+        filename = self.fm.upload_file(rel_path, request.FILES['files[]'])
 
         l = os.path.join(self.fm.path, request.POST['rel_path']).split('/')
         with transaction.atomic():
