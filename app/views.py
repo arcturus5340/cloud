@@ -257,6 +257,7 @@ class DownloadView(FilemanagerMixin, django.views.generic.TemplateView):
     def post(self, request):
         with zipfile.ZipFile(os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
             for _, file_data in json.loads(request.POST.get('files')).items():
+                file_data['url'] = str(file_data['url'])
                 if file_data['isDir']:
                     for root, dirs, files in os.walk(os.path.join(app.settings.MEDIA_ROOT, file_data['url'])):
                         for file in files:
@@ -379,6 +380,13 @@ class ReplaceView(FilemanagerMixin, django.views.generic.FormView):
 
     def form_valid(self, form):
         self.fm.replace(form.cleaned_data.get('old_path'), form.cleaned_data.get('input_path'))
+
+        with transaction.atomic():
+            for file in app.models.Files.objects.all():
+                if file.location.startswith(form.cleaned_data.get('old_path')):
+                    file.location = os.path.join(form.cleaned_data.get('input_path'), file.location)
+                    file.save()
+
         return super(ReplaceView, self).form_valid(form)
 
 
