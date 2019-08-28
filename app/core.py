@@ -69,6 +69,9 @@ class Filemanager(object):
             'filedate': STORAGE.get_modified_time(self.location),
             'fileurl': self.url,
             'link':  app.models.Files.objects.get(location=os.path.join(self.path, filename)).link,
+            'blocked': app.models.Files.objects.get(location=os.path.join(self.path, filename)).blocked,
+            'url_access': app.models.Files.objects.get(location=os.path.join(self.path, filename)).url_access,
+            'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, filename)).allowed_urls.split(', '),
         }
 
     def directory_list(self):
@@ -85,8 +88,13 @@ class Filemanager(object):
                 'filesize': sizeof_fmt(STORAGE.size(os.path.join(self.path, name))),
                 'fileurl' : os.path.join(settings.MEDIA_URL, self.abspath, name),
                 'link': app.models.Files.objects.get(location=os.path.join(self.path, name)).link,
+                'blocked': app.models.Files.objects.get(location=os.path.join(self.path, name)).blocked,
+                'url_access': app.models.Files.objects.get(location=os.path.join(self.path, name)).url_access,
+                'allowed_urls': app.models.Files.objects.get(location=os.path.join(self.path, name)).allowed_urls.split(', '),
             }
+
         for directoryname in directories:
+            print(os.path.join(self.path, directoryname))
             listing.append(_helper(directoryname, 'Directory'))
 
         for filename in files:
@@ -106,6 +114,9 @@ class Filemanager(object):
                 'filesize': sizeof_fmt(STORAGE.size(os.path.join(location, name))),
                 'fileurl': os.path.join(app.settings.MEDIA_URL, location, name),
                 'link': link,
+                'blocked': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).blocked,
+                'url_access': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).url_access,
+                'allowed_urls': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).allowed_urls.split(', '),
             }
 
         listing = []
