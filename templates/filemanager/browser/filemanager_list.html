@@ -144,6 +144,27 @@
 {% include 'filemanager/link_modal.html' %}
 {% include 'filemanager/auth_modal.html' %}
 
+<script type="text/javascript">
+  $('#replace-here-btn').click(function() {
+    var replace_file = Cookies.get('replace');
+    var token = $("input[name=csrfmiddlewaretoken]").val();
+    var path = "{{path}}";
+
+    if(path == "") {
+      path = "/";
+    }
+
+    $.post("{% url 'replace' %}?path={{path}}", {
+      'old_path': replace_file, 
+      'input_path': path,
+      'csrfmiddlewaretoken': token
+    }).done(function() {
+      Cookies.remove('replace');
+      location.reload();
+    });
+  });
+</script>>
+
 <script src="{% static 'js/other.js' %}"></script>
 <script src="{% static 'js/filemanager_dynamic.js' %}"></script>
 <script src="{% static 'js/checkbox.js' %}"></script>

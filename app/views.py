@@ -352,6 +352,7 @@ class DeleteView(FilemanagerMixin, django.views.generic.base.View):
 
 
             for files in json_data['files']:
+                files = str(files)
                 self.fm.remove(files)
                 with transaction.atomic():
                     for file in app.models.Files.objects.all():

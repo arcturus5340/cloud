@@ -52,25 +52,6 @@ $('#replace-modal-btn').click(function () {
   }
 });
 
-$('#replace-here-btn').click(function() {
-  var replace_file = Cookies.get('replace');
-  var token = $("input[name=csrfmiddlewaretoken]").val();
-  var path = "{{path}}";
-
-  if(path == "") {
-    path = "/";
-  }
-
-  $.post("{% url 'replace' %}?path={{path}}", {
-    'old_path': replace_file, 
-    'input_path': path,
-    'csrfmiddlewaretoken': token
-  }).done(function() {
-    Cookies.remove('replace');
-    location.reload();
-  });
-});
-
 $('.link-modal-btn').click(function () {
 
   $('.added').each(function() {
