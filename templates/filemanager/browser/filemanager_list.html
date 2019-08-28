@@ -214,6 +214,12 @@
   });
 
   $('.link-modal-btn').click(function () {
+
+    $('.added').each(function() {
+      $(this).remove();
+    });
+    $("#saved").attr('hidden', 'hidden');
+
     var filename = $(this).attr('data');
     var url = $(this).data('url');
     var link = $(this).data('link');
@@ -221,7 +227,7 @@
     var url_access = $(this).data('url-access');
     var allowed_urls = $(this).data('allowed-urls');
     var urls = allowed_urls.split(", ");
-    var length = urls.length();
+    var length = urls.length;
 
     if(blocked == "0") {
       $("#link-access-btn .toggle").removeClass("off");
@@ -237,7 +243,7 @@
       if(i == 0) {
         $("#id_input_file_url").val(urls[i]);
       } else {
-        $( ".url-div" ).append('<input type="text" class="form-control urls" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px" value="%s"></input><br><br><br>', urls[i]);
+        $( ".url-div" ).append('<input type="text" class="form-control urls added" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px; margin-bottom: 20px;" value="' + urls[i] + '"></input>');
       }
     }
 
@@ -246,6 +252,22 @@
     $("#link-modal #link-url-btn").attr('data', url);
     $("#save-urls").attr('data', url);
     $('#link-modal').modal('show');
+  });
+
+
+  $("#copy-button").click(function() {
+    var copyTextarea = document.querySelector('#id_input_file_link');
+    copyTextarea.focus();
+    copyTextarea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      console.log('Copying text command was ' + msg);
+    } catch (err) {
+      console.log('Oops, unable to copy');
+    }
+
   });
 
   $('#get-link-btn').click(function () {
@@ -288,7 +310,7 @@
     $("#saved").show();
   });
   $(".add-url-input").click(function(e) {
-    $( ".url-div" ).append('<input type="text" class="form-control urls" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px"></input><br><br><br>');
+    $( ".url-div" ).append('<input type="text" class="form-control urls added" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px; margin-bottom: 20px;></input><br><br><br>');
   });
   $(".search-input").click(function(e) {
     $(this).css("opacity", "1");

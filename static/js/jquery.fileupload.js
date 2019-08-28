@@ -459,6 +459,7 @@
                     } else {
                         formData = new FormData();
                         formData.append('rel_path', file.webkitRelativePath);
+                        formData.append('filename', file.name);
                         $.each(this._getFormData(options), function (index, field) {
                             formData.append(field.name, field.value);
                         });
