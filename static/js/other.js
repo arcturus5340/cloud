@@ -104,6 +104,7 @@ jQuery(document).ready(function($) {
     $('#fileupload').fileupload({
         
         dataType: 'json',
+        dropZone: $("#upload-modal"),
         start: function (e) {
             var strProgress = 0 + "%";
             $("#progress-upload").css({"width": strProgress});

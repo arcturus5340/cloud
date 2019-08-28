@@ -6,13 +6,23 @@ $(document).ready(function () {
     $(this).closest('table').find('tbody :checkbox')
       .prop('checked', this.checked)
       .closest('tr').toggleClass('selected', this.checked);
-      if($(this).prop('checked')) {
-	    $('#download-btn').removeClass('btn-inactive').prop('disabled',false);
-	    $('#delete-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+    
+    if($(this).prop('checked')) {
+      $('#download-btn').removeClass('btn-inactive').prop('disabled',false);
+      $('#delete-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+      
+      if($('.checkbox:checked').length==1) {
+        $('#rename-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+        $('#replace-modal-btn').removeClass('btn-inactive').prop('disabled',false);
+        $('#get-link-btn').removeClass('btn-inactive').prop('disabled',false);
+      }
 	  } else {
-	  	$('#download-btn').addClass('btn-inactive').prop('disabled', true);
-	  	$('#delete-modal-btn').addClass('btn-inactive').prop('disabled',true);
-	  }
+	  	$('#rename-modal-btn').addClass('btn-inactive').prop('disabled', true);
+      $('#replace-modal-btn').addClass('btn-inactive').prop('disabled', true);
+      $('#download-btn').addClass('btn-inactive').prop('disabled', true);
+      $('#get-link-btn').addClass('btn-inactive').prop('disabled', true);
+      $('#delete-modal-btn').addClass('btn-inactive').prop('disabled',true);
+    }
   });
 
   $('tbody :checkbox').on('click', function () {
