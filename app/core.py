@@ -176,10 +176,13 @@ class Filemanager(object):
 
     def replace(self, src, dst):
         # TODO: os.path() don't work for this sample
-        os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads', src), '/'.join([settings.MEDIA_ROOT, DIRECTORY, dst, src.split('/')[-1]]))
-        file = app.models.Files.objects.get(location=os.path.join(self.path, src))
-        if dst[0] == '/': dst = dst[1:]
-        file.location = '{}{}'.format(dst, src.split('/')[-1])
+        os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads', src), '/'.join([settings.MEDIA_ROOT, 'uploads/', dst, src.split('/')[-1]]))
+        file = app.models.Files.objects.get(location=src)
+        if dst[0] == '/':
+            file.location = '{}'.format(src.split('/')[-1])
+        else:
+            file.location = '{}/{}'.format(dst, src.split('/')[-1])
+        print(file.location)
         file.save()
 
     def remove(self, name):

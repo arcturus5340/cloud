@@ -257,6 +257,7 @@ class DownloadView(FilemanagerMixin, django.views.generic.TemplateView):
     def post(self, request):
         with zipfile.ZipFile(os.path.join(cloud.settings.MEDIA_ROOT, 'zipped/download.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
             for _, file_data in json.loads(request.POST.get('files')).items():
+                file_data['url'] = str(file_data['url'])
                 if file_data['isDir']:
                     for root, dirs, files in os.walk(os.path.join(app.settings.MEDIA_ROOT, file_data['url'])):
                         for file in files:
