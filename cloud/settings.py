@@ -25,7 +25,7 @@ SECRET_KEY = 'hw^7l#71vw%y2_lo5odk!q_0tb@p7gw$43fke&td=0t9&)a(z5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['85.209.90.55', 'sharewood.cloud', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['85.209.90.55', 'sharewood.cloud', '127.0.0.1', 'localhost', 'www.sharewood.cloud']
 
 # Application definition
 
