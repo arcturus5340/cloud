@@ -442,14 +442,16 @@
                     if (options.blob) {
                         formData.push({
                             name: paramName,
-                            value: options.blob
+                            value: options.blob,
+                            rel_path: file.webkitRelativePath
                         });
                     } else {
                         $.each(options.files, function (index, file) {
                             formData.push({
                                 name: ($.type(options.paramName) === 'array' &&
                                     options.paramName[index]) || paramName,
-                                value: file
+                                value: file,
+                                rel_path: file.webkitRelativePath
                             });
                         });
                     }
@@ -470,6 +472,7 @@
                         $.each(options.files, function (index, file) {
                             // This check allows the tests to run with
                             // dummy objects:
+                            console.log(file);
                             if (that._isInstanceOf('File', file) ||
                                     that._isInstanceOf('Blob', file)) {
                                 formData.append(
@@ -477,7 +480,9 @@
                                         options.paramName[index]) || paramName,
                                     file,
                                     file.uploadName || file.name
+
                                 );
+                                formData.append('rel_path', file.relativePath + file.name);
                             }
                         });
                     }

@@ -1,0 +1,91 @@
+{% extends "filemanager/filemanager_base.html" %}
+
+{% load i18n static %}
+
+{% block content %}
+
+<div class="main-content">
+  <font style="font-size: 36px; text-align: center;">Страница не найдена</font><br><br>
+  <font style="font-size: 14px; text-align: center;">Перейдите на <a href="/" class="item-link-reverse">главную страницу</a></font>
+</div>
+
+<footer style="margin-bottom: 50px">
+</footer>
+
+{% if popup %}
+<script src="{% static 'js/filemanager.js' %}"></script>
+{% endif %}
+
+<script type="text/javascript">
+  $('#auth-modal-btn').click(function (e) {
+    e.preventDefault();
+    $('#auth-modal').modal('show');
+  });
+   
+  $(".search-input").click(function(e) {
+    $(this).css("opacity", "1");
+  });
+  
+  $(document).mouseup(function (e){
+    var div = $(".search-input");
+    if (!div.is(e.target) && div.has(e.target).length === 0) {
+      $(".search-input").css("opacity", "0.7");
+    }
+  });
+  $('#login_button').on("click", function(e) {
+      e.preventDefault();
+      $('#error-login').hide();
+      $.ajax({
+        type: "POST",
+        url: './',
+        data: {
+          'username': $('#id_username').val(),
+          'password': $('#id_password').val(),
+          'login': $('#id_login').val(),
+          'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function(response) {
+            if (response['result'] === "Success!") {
+                let url = "/";
+                $(location).attr('href', url);
+            } else {
+                $('#error-login').show();
+            }
+        }
+      });
+    });
+    $('#logout_button').on("click", function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: './',
+        data: {
+          'logout': "logout",
+          'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function(response) {
+            if (response['result'] === "Success!") {
+                let url = "/";
+                $(location).attr('href', url);
+            } else {
+                $('#error-login').show();
+            }
+        }
+      });
+    });
+</script>
+
+<script src="{% static 'js/other.js' %}"></script>
+<script src="{% static 'js/checkbox.js' %}"></script>
+<script src="{% static 'js/jszip-utils.js' %}"></script>
+<script src="{% static 'js/zip_down.js' %}"></script>
+<script src="{% static 'js/FileSaver.js' %}"></script>
+<script src="{% static 'js/js-search.js' %}"></script>
+<script src="{% static 'js/get_image_data.js' %}"></script>
+<script src="{% static 'js/drag_and_drop.js' %}"></script>
+<script src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
+
+<script src="{% static 'js/vendor/jquery.ui.widget.js' %} "></script>
+<script src="{% static 'js/jquery.iframe-transport.js' %} "></script>
+<script src="{% static 'js/jquery.fileupload.js' %} "></script>
+{% endblock %}

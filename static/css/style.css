@@ -176,6 +176,15 @@ font {
 	color: #5eb961;
 }
 
+.item-link-reverse {
+	text-decoration: none;
+	color: #5eb961;
+}
+
+.item-link-reverse:hover {
+	color: #87817e;
+}
+
 .link-item {
 	width: 20px;
 	height: 15px;
