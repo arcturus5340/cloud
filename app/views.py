@@ -38,6 +38,7 @@ class Server(object):
     def __init__(self):
         self.hostname = os.uname().nodename
         self.free = (psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
+        self.left = round(psutil.disk_usage('/').free/1024**3, 1)
 
 
 import django.contrib.auth.models

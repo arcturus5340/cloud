@@ -12,7 +12,7 @@
       <td width="15%" style="display:inline-table; margin-top:6px" class="admin-sidebar" valign="top">
         <div>
           <font> СЕРВЕР </font>
-          <font style="color:#ff4633; float: right;"> {{ server.hostname }} </font>
+          <font style="color:#8ad641; float: right;">{{ server.left }}ГБ </font><font style="color:#ff4633; margin-left: 0px">{{ server.hostname | upper}} </font>
           <div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{ server.free }}%"></div>
           </div>
