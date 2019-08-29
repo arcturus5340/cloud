@@ -57,7 +57,7 @@ $('.link-modal-btn').click(function () {
   $('.added').each(function() {
     $(this).remove();
   });
-  $("#saved").attr('hidden', 'hidden');
+  $("#saved").css('display', 'none');
 
   var filename = $(this).attr('data');
   var url = $(this).data('url');
@@ -76,14 +76,20 @@ $('.link-modal-btn').click(function () {
         $( ".url-div" ).append('<input type="text" class="form-control urls added" placeholder="" aria-label="" name="input_file_url" required id="id_input_file_url" aria-describedby="button-addon2" style="float:left; margin-right: 10px; margin-bottom: 20px;" value="' + urls[i] + '"></input>');
       }
     }
+  } else {
+    $("#id_input_file_url").val("");
   }
-
-  if(blocked == "0") {
+  
+  if(blocked === 0) {
     $("#link-access-btn .toggle").removeClass("off");
+  } else {
+    $("#link-access-btn .toggle").addClass("off");
   }
 
-  if(url_access == "1") {
+  if(url_access === 1) {
     $("#link-url-btn .toggle").removeClass("off");
+  } else {
+    $("#link-url-btn .toggle").addClass("off");
   }
 
   $("#id_input_file_link").val(link);
@@ -115,7 +121,7 @@ $('#get-link-btn').click(function () {
       $(this).remove();
     });
 
-    $("#saved").attr('hidden', 'hidden');
+    $("#saved").css('display', 'none');
 
     var filename = $('.checkbox:checked').attr('data');
     var url = $('.checkbox:checked').data('path');
@@ -186,7 +192,7 @@ $("#save-urls").click(function(e) {
 });
 
 $(".add-url-input").click(function(e) {
-  $( ".url-div" ).append('<input type="text" class="form-control urls added" name="input_file_url" style="float:left; margin-right: 10px; margin-bottom: 20px;"></input><br><br><br>');
+  $( ".url-div" ).append('<input type="text" class="form-control urls added" name="input_file_url" style="float:left; margin-right: 10px; margin-bottom: 20px;"></input>');
 });
 
 $(".search-input").click(function(e) {
@@ -241,4 +247,8 @@ $('#logout_button').on("click", function(e) {
         }
     }
   });
+});
+
+$('#link-close').click(function() {
+  location.reload();
 });

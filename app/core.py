@@ -192,7 +192,7 @@ class Filemanager(object):
             os.remove(os.path.join(settings.MEDIA_ROOT, "uploads/", name))
 
     def search(self, name):
-        startpath = os.path.join(settings.MEDIA_ROOT, self.abspath)
+        startpath = os.path.join(settings.MEDIA_ROOT, "uploads/")
         q = []
         for root, dirs, files in os.walk(startpath):
             self.update_path(root.replace(startpath, ''))

@@ -110,11 +110,12 @@ class BrowserView(FilemanagerMixin, django.views.generic.TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['popup'] = self.popup
-
+        context['search'] = ""
         query = self.request.GET.get('q')
         search_params = self.request.GET.get('search_param')
 
         if query:
+            context['search'] = query
             if(re.match('here', search_params, re.I)):
                 files = self.fm.directory_list()
 

@@ -69,7 +69,7 @@
           <thead>
               <tr>
                 <td class="fm-head">
-                <input type="checkbox" class="checkAll mgc mgr-lg" name="checkAll" style="margin-right: 20px; margin-left: 1.5px"/>
+                <input type="checkbox" class="checkAll mgc mgr-lg" name="checkAll" style="margin-right: 20px; margin-left: 1.5px"/>{% if not search %}
                   <font>{% if not public %}{% for breadcrumb in breadcrumbs %}
                   {% if forloop.last %}
                   > {{breadcrumb.label}}
@@ -79,6 +79,10 @@
                   {% endfor %}{% endif %}</font>
                   {% load utils %}
                   <font style="float:right">{% get_el_number n_dir n_file %}</font>
+                  {% else %}
+                  <font>
+                  <a href="/" style="text-decoration: none; color: #5eb961; font-size: 12px">> Home </a> > Поиск по запросу <nobr style="color: #5eb961">{{ search }}</nobr> </font>
+                  {% endif %}
                 </td>
               </tr>
             </thead>
