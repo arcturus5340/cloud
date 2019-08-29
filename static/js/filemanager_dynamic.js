@@ -142,12 +142,16 @@ $('#get-link-btn').click(function () {
       }
     }
 
-    if(blocked == "0") {
+    if(blocked === 0) {
       $("#link-access-btn .toggle").removeClass("off");
+    } else {
+      $("#link-access-btn .toggle").addClass("off");
     }
 
-    if(url_access == "1") {
+    if(url_access === 1) {
       $("#link-url-btn .toggle").removeClass("off");
+    } else {
+      $("#link-url-btn .toggle").addClass("off");
     }
 
     $("#id_input_file_link").val(link);
