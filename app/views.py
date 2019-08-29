@@ -23,7 +23,7 @@ import app.settings
 import cloud.settings
 
 
-allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
+allowedIps = ['localhost', '127.0.0.1', '188.242.232.131', '213.230.83.128']
 # def allow_by_ip(view_func):
 #     def authorize(request, *args, **kwargs):
 #         user_ip = request.META['REMOTE_ADDR']
