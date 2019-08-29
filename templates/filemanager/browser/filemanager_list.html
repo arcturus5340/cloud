@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if request.user.is_authenticated or public %}
 <div class="main-content">
   {% if request.user.is_authenticated %}
   <table width="100%">
@@ -132,7 +133,11 @@
 </div>
 
 </div>
-
+{% else %}
+<div class="main-content">
+  <font style="font-size: 36px; text-align: center; margin-left: 20%;">Добро пожаловать на <a href="/" class="item-link-reverse">sharewood.cloud!</a></font><br><br>
+</div>
+{% endif %}
 <footer style="margin-bottom: 50px">
 </footer>
 
