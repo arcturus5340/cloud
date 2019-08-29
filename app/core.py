@@ -146,12 +146,14 @@ class Filemanager(object):
         filepath = os.path.join(self.path, rel_path)
 
         app.signals.filemanager_pre_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
+        if app.models.Files.objects.filter(location=filepath).exists():
+            self.remove(filepath)
+
         STORAGE.save(filepath, filedata)
-        if not app.models.Files.objects.filter(location=filepath).exists():
-            app.models.Files.objects.create(location=filepath,
-                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
-                                            blocked=1,
-                                            url_access=0)
+        app.models.Files.objects.create(location=filepath,
+                                        link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
+                                        blocked=1,
+                                        url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
         return filename
 
@@ -170,12 +172,23 @@ class Filemanager(object):
 
     def rename(self, src, dst):
         os.rename(os.path.join(self.location, src), os.path.join(self.location, dst))
-        file = app.models.Files.objects.get(location=os.path.join(self.path, src))
-        file.location = os.path.join(self.path, dst)
-        file.save()
+        if os.path.isdir(os.path.join(self.location, dst)):
+            for root, dirs, files in os.walk(os.path.join(self.location, dst)):
+                path = os.path.relpath(root, os.path.join(self.location, dst))
+                if path == '.': path = ''
+                file = app.models.Files.objects.get(location=os.path.join(src, path) if os.path.join(src, path)[-1] != '/' else os.path.join(src, path)[:-1])
+                file.location = os.path.join(dst, path) if os.path.join(dst, path)[-1] != '/' else os.path.join(dst, path)[:-1]
+                file.save()
+                for filename in files:
+                    file = app.models.Files.objects.get(location=os.path.join(src, path, filename))
+                    file.location = os.path.join(dst, path, filename)
+                    file.save()
+        else:
+            file = app.models.Files.objects.get(location=os.path.join(self.path, src))
+            file.location = os.path.join(self.path, dst)
+            file.save()
 
     def replace(self, src, dst):
-        # TODO: os.path() don't work for this sample
         os.replace(os.path.join(settings.MEDIA_ROOT, 'uploads', src), '/'.join([settings.MEDIA_ROOT, 'uploads/', dst, src.split('/')[-1]]))
         file = app.models.Files.objects.get(location=src)
         if dst[0] == '/':
