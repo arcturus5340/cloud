@@ -9,7 +9,7 @@
   {% if request.user.is_authenticated %}
   <table width="100%">
     <tr>
-      <td width="15%" style="display:inline-table; margin-top:6px" class="admin-sidebar" valign="top">
+      <td width="15%" style="display:inline-table; margin-top:6px; background-image: url('/static/img/sidebar-bg.png')" class="admin-sidebar" valign="top">
         <div>
           <font> СЕРВЕР </font>
           <font style="color:#8ad641; float: right;">{{ server.left }}ГБ </font><font style="color:#ff4633; margin-left: 0px">{{ server.hostname | upper}} </font>
