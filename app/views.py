@@ -37,7 +37,7 @@ allowedIps = ['localhost', '127.0.0.1', '188.242.232.131', '213.230.83.128']
 class Server(object):
     def __init__(self):
         self.hostname = os.uname().nodename
-        self.free = (psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
+        self.free = 100-(psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
         self.left = round(psutil.disk_usage('/').free/1024**3, 1)
 
 
