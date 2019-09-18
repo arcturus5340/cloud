@@ -2,6 +2,7 @@ body {
 	margin: 0px;
 	background-color: #edebe6;
 	font-family: 'Roboto', sans-serif;
+	position: relative;
 }
 
 font {
@@ -406,7 +407,7 @@ font {
 	overflow: hidden;
 	width: 230px;
 	position:relative;
-	margin-top: -15px;
+	margin-top: -14px;
 }
 
 .progress-active img {

@@ -137,7 +137,7 @@
                     </tr>
                     {% endif %}
                     {% endfor %}
-                    <img src="/static/img/treasure.png" style="z-index: -10; margin-left: -21px; display: table-cell; vertical-align: bottom;">
+                    <img id="bg-image" src="/static/img/treasure.png" style="z-index: -10; margin-left: -21px; position: absolute; bottom: 0; opacity: 0.5">
                     {% else %}
                     <tr>
                       <td>
@@ -194,6 +194,17 @@
       Cookies.remove('replace');
       location.reload();
     });
+  });
+
+  $(document).ready(function() {
+    var rows = 0;
+    $('.clickable-row').each(function() {
+      rows = rows + 1;
+    });
+
+    if(rows < 4) {
+      $('#bg-image').hide();
+    }
   });
 </script>>
 
