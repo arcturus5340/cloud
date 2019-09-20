@@ -4,16 +4,23 @@
 
 {% block content %}
 
+{% if request.user.is_authenticated or public %}
 <div class="main-content">
   {% if request.user.is_authenticated %}
   <table width="100%">
     <tr>
-      <td width="15%" style="display:inline-table; margin-top:6px" class="admin-sidebar" valign="top">
+      <td width="15%" style="display:inline-table; margin-top:6px; background-image: url('/static/img/sidebar-bg.png')" class="admin-sidebar" valign="top">
         <div>
           <font> СЕРВЕР </font>
-          <font style="color:#ff4633; float: right;"> {{ server.hostname }} </font>
-          <div class="progress">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{ server.free }}%"></div>
+          <font style="color:#8ad641; float: right;">{{ server.left }}ГБ </font><font style="color:#ff4633; margin-left: 0px">{{ server.hostname | upper}} </font>
+          <div>
+            <div>
+              <img src="/static/img/progress-bar.png" style="width: 230px; margin-top: 10px">
+              <div class="progress-active">
+                <img src="/static/img/progress-bar-active.png" style="right: {{server.free}}%;">
+              </div>
+            </div>
+           <!--  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{{ server.free }}%; background-image: url('/static/img/progress-bar.png')"></div> -->
           </div>
 {#          <font> СВОБОДНО </font>#}
 {#          <font style="color:#8ad641; float: right;"> 2ГБ из 8ГБ </font>#}
@@ -28,31 +35,47 @@
         </div>
       </td>
       <td width="65%" valign="top" style="display:inline-table;">
-        <table style="border-spacing: 0px 5px">
+        <table style="border-spacing: 0px 15px">
           <tr>
             <th class="upload-th">
-              <button class="top-buttons" id="upload-modal-btn" data-href="{% url 'upload' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="btn btn-default" style="width: 120px; margin-left: 8px"><font class="top-buttons-font"><img src="/static/img/upload-btn.png" class="top-buttons-img">ЗАГРУЗИТЬ</font></button>
+              <button class="top-buttons" id="upload-modal-btn" data-href="{% url 'upload' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="btn btn-default" style="width: 120px; margin-left: 20px; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/upload-btn.png" class="top-buttons-img">ЗАГРУЗИТЬ</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -70px">
+              <img src="/static/img/button-right.png" style="z-index: -10; position: absolute; margin-top: -45px; margin-left: 51px">
             </th>
             <th class="create-directory-th">
-              <button class="top-buttons" id="create-directory-btn" data-href="{% url 'create-directory' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/create-directory-btn.png" class="top-buttons-img">НОВАЯ ПАПКА</font></button>
+              <button class="top-buttons" id="create-directory-btn" data-href="{% url 'create-directory' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 140px;margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/create-directory-btn.png" class="top-buttons-img">НОВАЯ ПАПКА</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -80px">
+              <img src="/static/img/button-right.png" style="z-index: -10;position: absolute; margin-top: -45px; margin-left: 55px">
             </th>
             <th class="download-th">
-              <button class="top-buttons btn-inactive" disabled id="download-btn" style="width: 50px;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img" style="margin-left:8px"></font></button>
+              <button class="top-buttons btn-inactive" disabled id="download-btn" style="width: 50px;z-index: 10; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/download-btn.png" class="top-buttons-img" style="margin-left:8px; "></font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -35px">
+              <img src="/static/img/button-right.png" style="z-index: -2; position: absolute; margin-top: -45px; margin-left: 9px; opacity: 0.4">
             </th>
             <th class="delete-modal-th">
-              <button class="top-buttons btn-inactive" disabled id="delete-modal-btn" data-href="{% url 'delete' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 50px;"><font class="top-buttons-font"><img src="/static/img/delete-btn.png" class="top-buttons-img" style="margin-left:8px"></font></button>
+              <button class="top-buttons btn-inactive" disabled id="delete-modal-btn" data-href="{% url 'delete' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 50px; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/delete-btn.png" class="top-buttons-img" style="margin-left:8px"></font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -35px">
+              <img src="/static/img/button-right.png" style="z-index: -2; position: absolute; margin-top: -45px; margin-left: 9px; opacity: 0.4">
             </th>
             <th class="get-link-th">
-              <button class="top-buttons btn-inactive" disabled id="get-link-btn" style="width: 160px;"><font class="top-buttons-font"><img src="/static/img/link.png" class="top-buttons-img">СОЗДАТЬ ССЫЛКУ</font></button>
+              <button class="top-buttons btn-inactive" disabled id="get-link-btn" style="width: 160px; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/link.png" class="top-buttons-img">СОЗДАТЬ ССЫЛКУ</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -90px">
+              <img src="/static/img/button-right.png" style="z-index: -10; position: absolute; margin-top: -45px; margin-left: 65px; opacity: 0.4">
             </th>
             <th class="rename-modal-th">
-              <button class="top-buttons btn-inactive" disabled id="rename-modal-btn" data-href="{% url 'rename' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 150px;"><font class="top-buttons-font"><img src="/static/img/rename-btn.png" class="top-buttons-img"> ПЕРЕИМЕНОВАТЬ</font></button>
+              <button class="top-buttons btn-inactive" disabled id="rename-modal-btn" data-href="{% url 'rename' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" style="width: 150px; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/rename-btn.png" class="top-buttons-img"> ПЕРЕИМЕНОВАТЬ</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -85px">
+              <img src="/static/img/button-right.png" style="z-index: -10; position: absolute; margin-top: -45px; margin-left: 60px; opacity: 0.4">
             </th>
             <th class="replace-modal-th">
-              <button class="top-buttons btn-inactive" disabled id="replace-modal-btn"  class="btn btn-default" style="width: 140px;"><font class="top-buttons-font"><img src="/static/img/replace-btn.png" class="top-buttons-img"> ПЕРЕМЕСТИТЬ</font></button>
+              <button class="top-buttons btn-inactive" disabled id="replace-modal-btn"  class="btn btn-default" style="width: 140px; margin-right: 10px; display: block;"><font class="top-buttons-font"><img src="/static/img/replace-btn.png" class="top-buttons-img"> ПЕРЕМЕСТИТЬ</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -80px">
+              <img src="/static/img/button-right.png" style="z-index: -10; position: absolute; margin-top: -45px; margin-left: 55px; opacity: 0.4">
             </th>
             <th class="replace-here-th" hidden>
-              <button class="top-buttons" id="replace-here-btn"  class="btn btn-default" style="width: 170px;"><font class="top-buttons-font"><img src="/static/img/replace-btn.png" class="top-buttons-img"> ПЕРЕМЕСТИТЬ СЮДА</font></button>
+              <button class="top-buttons" id="replace-here-btn"  class="btn btn-default" style="width: 170px; margin-left: 15px; display: block;"><font class="top-buttons-font"><img src="/static/img/replace-btn.png" class="top-buttons-img"> ПЕРЕМЕСТИТЬ СЮДА</font></button>
+              <img src="/static/img/button-left.png" style="z-index: 101; position: absolute; margin-top: -52px; margin-left: -180px">
+              <img src="/static/img/button-right.png" style="z-index: -10; position: absolute; margin-top: -45px; margin-left: 79px; opacity: 0.4">
             </th>
           </tr>
         </table>
@@ -65,7 +88,7 @@
           </tr>
         </table>
         {% endif %}
-        <table class="fm-table" style="{% if request.user.is_authenticated %}width: 105.5%;{% else %}width:93%;{% endif %}">
+        <table class="fm-table" style="{% if request.user.is_authenticated %}width: 97.5%;{% else %}width:93%;{% endif %}">
           <thead>
               <tr>
                 <td class="fm-head">
@@ -74,14 +97,14 @@
                   {% if forloop.last %}
                   > {{breadcrumb.label}}
                   {% else %}
-                  <a href="{% url 'browser' %}?path={{breadcrumb.path}}{% if popup %}&amp;popup=1{% endif %}" style="text-decoration: none; color: #5eb961;">> {{breadcrumb.label}}</a>
+                  <a href="{% url 'browser' %}?path={{breadcrumb.path}}{% if popup %}&amp;popup=1{% endif %}" style="text-decoration: none; color: #0084fe;">> {{breadcrumb.label}}</a>
                   {% endif %}
                   {% endfor %}{% endif %}</font>
                   {% load utils %}
                   <font style="float:right">{% get_el_number n_dir n_file %}</font>
                   {% else %}
                   <font>
-                  <a href="/" style="text-decoration: none; color: #5eb961; font-size: 12px">> Home </a> > Поиск по запросу <nobr style="color: #5eb961">{{ search }}</nobr> </font>
+                  <a href="/" style="text-decoration: none; color: #0084fe; font-size: 12px">> Home </a> > Поиск по запросу <nobr style="color: #0084fe">{{ search }}</nobr> </font>
                   {% endif %}
                 </td>
               </tr>
@@ -114,6 +137,7 @@
                     </tr>
                     {% endif %}
                     {% endfor %}
+                    <img id="bg-image" src="/static/img/treasure.png" style="z-index: -10; margin-left: -21px; position: absolute; bottom: 0; opacity: 0.5">
                     {% else %}
                     <tr>
                       <td>
@@ -132,7 +156,11 @@
 </div>
 
 </div>
-
+{% else %}
+<div class="main-content" align="center">
+  <font style="font-size: 36px;">Добро пожаловать на <a href="/" class="item-link-reverse">dmc.cx!</a></font><br><br>
+</div>
+{% endif %}
 <footer style="margin-bottom: 50px">
 </footer>
 
@@ -166,6 +194,17 @@
       Cookies.remove('replace');
       location.reload();
     });
+  });
+
+  $(document).ready(function() {
+    var rows = 0;
+    $('.clickable-row').each(function() {
+      rows = rows + 1;
+    });
+
+    if(rows < 4) {
+      $('#bg-image').hide();
+    }
   });
 </script>>
 

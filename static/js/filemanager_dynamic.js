@@ -215,7 +215,7 @@ $('#login_button').on("click", function(e) {
   $('#error-login').hide();
   $.ajax({
     type: "POST",
-    url: './',
+    url: '/',
     data: {
       'username': $('#id_username').val(),
       'password': $('#id_password').val(),
@@ -237,7 +237,7 @@ $('#logout_button').on("click", function(e) {
   e.preventDefault();
   $.ajax({
     type: "POST",
-    url: './',
+    url: '/',
     data: {
       'logout': "logout",
       'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),

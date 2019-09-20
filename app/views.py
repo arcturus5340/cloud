@@ -23,7 +23,7 @@ import app.settings
 import cloud.settings
 
 
-allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
+allowedIps = ['localhost', '127.0.0.1', '188.242.232.131', '213.230.83.128', '213.230.118.58']
 # def allow_by_ip(view_func):
 #     def authorize(request, *args, **kwargs):
 #         user_ip = request.META['REMOTE_ADDR']
@@ -37,7 +37,8 @@ allowedIps = ['localhost', '127.0.0.1', '188.242.232.131']
 class Server(object):
     def __init__(self):
         self.hostname = os.uname().nodename
-        self.free = (psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
+        self.free = 100-(psutil.disk_usage('/').used*100)/psutil.disk_usage('/').total
+        self.left = round(psutil.disk_usage('/').free/1024**3, 1)
 
 
 import django.contrib.auth.models

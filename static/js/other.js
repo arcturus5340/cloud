@@ -107,8 +107,8 @@ jQuery(document).ready(function($) {
         dropZone: $("#upload-modal"),
         start: function (e) {
             var strProgress = 0 + "%";
-            $("#progress-upload").css({"width": strProgress});
-            $("#progress-upload").text(strProgress);
+            $("#progress-percent").css({"width": strProgress});
+            $("#progress-percent").text(strProgress);
         },
 
         add: function (e, data) {
@@ -127,8 +127,8 @@ jQuery(document).ready(function($) {
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             var strProgress = progress + "%";
-            $("#progress-upload").css({"width": strProgress});
-            $("#progress-upload").text(strProgress);
+            $("#progress-percent").css({"width": strProgress});
+            $("#progress-percent").text(strProgress);
         }
     });
 
