@@ -241,7 +241,7 @@ class Filemanager(object):
 
     def unaccess_url(self, filepath):
         file = app.models.Files.objects.get(location=filepath)
-        file.url_unaccess = 0
+        file.url_access = 0
         file.save()
 
     def save_url(self, filepath, urls):
