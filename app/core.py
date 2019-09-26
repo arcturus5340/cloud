@@ -113,9 +113,9 @@ class Filemanager(object):
                 'filesize': sizeof_fmt(STORAGE.size(os.path.join(location, name))),
                 'fileurl': os.path.join(app.settings.MEDIA_URL, location, name),
                 'link': link,
-                'blocked': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).blocked,
-                'url_access': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).url_access,
-                'allowed_urls': app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(link)).allowed_urls,
+                'blocked': app.models.Files.objects.get(link='dmc.cx/public/{}'.format(link)).blocked,
+                'url_access': app.models.Files.objects.get(link='dmc.cx/public/{}'.format(link)).url_access,
+                'allowed_urls': app.models.Files.objects.get(link='dmc.cx/public/{}'.format(link)).allowed_urls,
             }
 
         listing = []
@@ -151,7 +151,7 @@ class Filemanager(object):
 
         STORAGE.save(filepath, filedata)
         app.models.Files.objects.create(location=filepath,
-                                        link='sharewood.cloud/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
+                                        link='dmc.cx/public/{}'.format(hashlib.sha256(filepath.encode('utf-8')).hexdigest()),
                                         blocked=1,
                                         url_access=0)
         app.signals.filemanager_post_upload.send(sender=self.__class__, filename=filename, path=self.path, filepath=filepath)
@@ -165,7 +165,7 @@ class Filemanager(object):
         STORAGE.save(path, ContentFile(''))
         if not app.models.Files.objects.filter(location=os.path.join(self.path, name)).exists():
             app.models.Files.objects.create(location=os.path.join(self.path, name),
-                                            link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(self.path, name).encode('utf-8')).hexdigest()),
+                                            link='dmc.cx/public/{}'.format(hashlib.sha256(os.path.join(self.path, name).encode('utf-8')).hexdigest()),
                                             blocked=1,
                                             url_access=0)
         STORAGE.delete(path)

@@ -177,11 +177,11 @@ class PublicView(FilemanagerMixin, django.views.generic.TemplateView):
     template_name = 'filemanager/browser/filemanager_list.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).blocked:
+        if app.models.Files.objects.get(link='dmc.cx/public/{}'.format(kwargs['link'])).blocked:
             return django.shortcuts.render(self.request, '404.html')
-        if app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).url_access:
+        if app.models.Files.objects.get(link='dmc.cx/public/{}'.format(kwargs['link'])).url_access:
             try:
-                if request.META.get('HTTP_REFERER').split('/')[2].split(':')[0] not in app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).allowed_urls.split(', '):
+                if request.META.get('HTTP_REFERER').split('/')[2].split(':')[0] not in app.models.Files.objects.get(link='dmc.cx/public/{}'.format(kwargs['link'])).allowed_urls.split(', '):
                     return django.shortcuts.render(self.request, '404.html')
             except:
                 return django.shortcuts.render(self.request, '404.html')
@@ -200,7 +200,7 @@ class PublicView(FilemanagerMixin, django.views.generic.TemplateView):
             context['files'] = self.fm.directory_list()
             context['empty'] = 'Folder is empty'
         else:
-            location = app.models.Files.objects.get(link='sharewood.cloud/public/{}'.format(kwargs['link'])).location
+            location = app.models.Files.objects.get(link='dmc.cx/public/{}'.format(kwargs['link'])).location
             context['files'] = self.fm.public_directory_list(location, kwargs['link'])
             context['empty'] = 'Folder is empty'
 
@@ -295,7 +295,7 @@ class UploadFileView(FilemanagerMixin, django.views.generic.base.View):
             for i in range(1, len(l)):
                 if not app.models.Files.objects.filter(location=os.path.join(*l[:i])).exists():
                     app.models.Files.objects.create(location=os.path.join(*l[:i]),
-                                                    link='sharewood.cloud/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
+                                                    link='dmc.cx/public/{}'.format(hashlib.sha256(os.path.join(*l[:i]).encode('utf-8')).hexdigest()),
                                                     blocked=1,
                                                     url_access=0)
 
